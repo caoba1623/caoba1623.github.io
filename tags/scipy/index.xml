@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>scipy on Alberto Ortiz</title>
-    <link>https://alberto36.github.io/tags/scipy/</link>
+    <link>https://caoba1623.github.io/tags/scipy/</link>
     <description>Recent content in scipy on Alberto Ortiz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Alberto Ortiz - All rights reserved</copyright>
-    <lastBuildDate>Sat, 19 Sep 2020 11:40:11 +0200</lastBuildDate><atom:link href="https://alberto36.github.io/tags/scipy/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Sep 2020 11:40:11 +0200</lastBuildDate><atom:link href="https://caoba1623.github.io/tags/scipy/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introducción a las series de tiempo</title>
-      <link>https://alberto36.github.io/blog/intro-timeseries/intro-timeseries/</link>
+      <link>https://caoba1623.github.io/blog/intro-timeseries/intro-timeseries/</link>
       <pubDate>Sat, 19 Sep 2020 11:40:11 +0200</pubDate>
       
-      <guid>https://alberto36.github.io/blog/intro-timeseries/intro-timeseries/</guid>
+      <guid>https://caoba1623.github.io/blog/intro-timeseries/intro-timeseries/</guid>
       <description>Este post será una introducción a las series de tiempo, sus componentes y veremos como descomponerla en sus propiedades.
 Primero que nada debemos de tener en mente qué tipo de datos vamos a tratar antes de realizar cualquier análisis, entre los tipos de datos que podemos tener son: Datos de series de tiempo (Time series data), Datos transversales (Cross-section data), Datos Panel o Datos longitudinales (Panel/Longitudinal Data).</description>
     </item>

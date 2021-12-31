@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>red neuronal recurrente on Alberto Ortiz</title>
-    <link>https://alberto36.github.io/tags/red-neuronal-recurrente/</link>
+    <link>https://caoba1623.github.io/tags/red-neuronal-recurrente/</link>
     <description>Recent content in red neuronal recurrente on Alberto Ortiz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Alberto Ortiz - All rights reserved</copyright>
-    <lastBuildDate>Sun, 01 Nov 2020 11:40:11 +0200</lastBuildDate><atom:link href="https://alberto36.github.io/tags/red-neuronal-recurrente/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 01 Nov 2020 11:40:11 +0200</lastBuildDate><atom:link href="https://caoba1623.github.io/tags/red-neuronal-recurrente/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Red Neuronal Recurrente - RNN</title>
-      <link>https://alberto36.github.io/blog/rnn/rnn/</link>
+      <link>https://caoba1623.github.io/blog/rnn/rnn/</link>
       <pubDate>Sun, 01 Nov 2020 11:40:11 +0200</pubDate>
       
-      <guid>https://alberto36.github.io/blog/rnn/rnn/</guid>
+      <guid>https://caoba1623.github.io/blog/rnn/rnn/</guid>
       <description>Como parte de ésta secuencia de redes neuronales en este post mostrare la red neuronal recurrente (recurrent neural network) o de forma simplificada RNN, si no has leído los post de las dos primeras arquitecturas anexo el link del red neuronal convolucional y el link del perceptron multicapa.</description>
     </item>
     
