@@ -3,12 +3,33 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://caoba1623.github.io/</loc>
-    <lastmod>2021-03-21T11:40:11+02:00</lastmod>
-  </url><url>
-    <loc>https://caoba1623.github.io/tags/analisis/</loc>
-    <lastmod>2021-03-21T11:40:11+02:00</lastmod>
+    <lastmod>2022-01-16T11:40:11+02:00</lastmod>
   </url><url>
     <loc>https://caoba1623.github.io/blog/</loc>
+    <lastmod>2022-01-16T11:40:11+02:00</lastmod>
+  </url><url>
+    <loc>https://caoba1623.github.io/tags/hyperparameter-optimization/</loc>
+    <lastmod>2022-01-16T11:40:11+02:00</lastmod>
+  </url><url>
+    <loc>https://caoba1623.github.io/tags/keras/</loc>
+    <lastmod>2022-01-16T11:40:11+02:00</lastmod>
+  </url><url>
+    <loc>https://caoba1623.github.io/tags/mnist/</loc>
+    <lastmod>2022-01-16T11:40:11+02:00</lastmod>
+  </url><url>
+    <loc>https://caoba1623.github.io/tags/python/</loc>
+    <lastmod>2022-01-16T11:40:11+02:00</lastmod>
+  </url><url>
+    <loc>https://caoba1623.github.io/tags/</loc>
+    <lastmod>2022-01-16T11:40:11+02:00</lastmod>
+  </url><url>
+    <loc>https://caoba1623.github.io/tags/weights-biases/</loc>
+    <lastmod>2022-01-16T11:40:11+02:00</lastmod>
+  </url><url>
+    <loc>https://caoba1623.github.io/blog/wandb/wandb/</loc>
+    <lastmod>2022-01-16T11:40:11+02:00</lastmod>
+  </url><url>
+    <loc>https://caoba1623.github.io/tags/analisis/</loc>
     <lastmod>2021-03-21T11:40:11+02:00</lastmod>
   </url><url>
     <loc>https://caoba1623.github.io/blog/fake-news-ml/fake-news-ml/</loc>
@@ -23,20 +44,8 @@
     <loc>https://caoba1623.github.io/tags/nlp/</loc>
     <lastmod>2021-03-21T11:40:11+02:00</lastmod>
   </url><url>
-    <loc>https://caoba1623.github.io/tags/python/</loc>
-    <lastmod>2021-03-21T11:40:11+02:00</lastmod>
-  </url><url>
     <loc>https://caoba1623.github.io/tags/sklearn/</loc>
     <lastmod>2021-03-21T11:40:11+02:00</lastmod>
-  </url><url>
-    <loc>https://caoba1623.github.io/tags/</loc>
-    <lastmod>2021-03-21T11:40:11+02:00</lastmod>
-  </url><url>
-    <loc>https://caoba1623.github.io/tags/keras/</loc>
-    <lastmod>2020-11-01T11:40:11+02:00</lastmod>
-  </url><url>
-    <loc>https://caoba1623.github.io/tags/mnist/</loc>
-    <lastmod>2020-11-01T11:40:11+02:00</lastmod>
   </url><url>
     <loc>https://caoba1623.github.io/tags/red-neuronal-recurrente/</loc>
     <lastmod>2020-11-01T11:40:11+02:00</lastmod>

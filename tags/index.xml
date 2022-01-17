@@ -7,7 +7,52 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Alberto Ortiz - All rights reserved</copyright>
-    <lastBuildDate>Sun, 21 Mar 2021 11:40:11 +0200</lastBuildDate><atom:link href="https://caoba1623.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Jan 2022 11:40:11 +0200</lastBuildDate><atom:link href="https://caoba1623.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hyperparameter optimization</title>
+      <link>https://caoba1623.github.io/tags/hyperparameter-optimization/</link>
+      <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
+      
+      <guid>https://caoba1623.github.io/tags/hyperparameter-optimization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>keras</title>
+      <link>https://caoba1623.github.io/tags/keras/</link>
+      <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
+      
+      <guid>https://caoba1623.github.io/tags/keras/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MNIST</title>
+      <link>https://caoba1623.github.io/tags/mnist/</link>
+      <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
+      
+      <guid>https://caoba1623.github.io/tags/mnist/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://caoba1623.github.io/tags/python/</link>
+      <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
+      
+      <guid>https://caoba1623.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>weights &amp; biases</title>
+      <link>https://caoba1623.github.io/tags/weights-biases/</link>
+      <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
+      
+      <guid>https://caoba1623.github.io/tags/weights-biases/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>analisis</title>
       <link>https://caoba1623.github.io/tags/analisis/</link>
@@ -45,38 +90,11 @@
     </item>
     
     <item>
-      <title>python</title>
-      <link>https://caoba1623.github.io/tags/python/</link>
-      <pubDate>Sun, 21 Mar 2021 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>sklearn</title>
       <link>https://caoba1623.github.io/tags/sklearn/</link>
       <pubDate>Sun, 21 Mar 2021 11:40:11 +0200</pubDate>
       
       <guid>https://caoba1623.github.io/tags/sklearn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>keras</title>
-      <link>https://caoba1623.github.io/tags/keras/</link>
-      <pubDate>Sun, 01 Nov 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/keras/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>MNIST</title>
-      <link>https://caoba1623.github.io/tags/mnist/</link>
-      <pubDate>Sun, 01 Nov 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/mnist/</guid>
       <description></description>
     </item>
     
