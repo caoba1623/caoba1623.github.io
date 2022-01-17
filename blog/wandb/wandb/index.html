@@ -122,13 +122,11 @@
                     <div class="article-post">
                         <p>En ocasiones los científicos de datos tienden a realizar los modelos de manera artesanal limitándose a realizar un par de ejecuciones con diferentes hiperparámetros y eligiendo el modelo que mejor desempeño tuvo en la etapa de entrenamiento y validación dependiendo de la métrica (accuracy, precision, recall, F1-score, ROC, AUC, etc.) y del problema que están resolviendo (Classification, Regression, etc.), a este proceso le llamamos “experiment tracking”. Lo antes mencionado resulta bastante tedioso de realizar de forma manual sin contar que conlleva bastante tiempo realizar los ajustes en los modelos y en sus ejecuciones individuales, justamente en esta etapa viene al rescate una herramienta que nos va a ayudar a encontrar los hiperparámetros con los que el modelo tuvo un mejor desempeño además de otras funcionalidad muy útiles que nos van a ayudar a lo largo de la etapa de modelado, sin más misterio les presento a Weights &amp; Biases <a href="https://wandb.ai/site">link</a>.</p>
 <p>Weights &amp; Biases es una servicio que además de ayudarnos con el experiment tracking también nos permite realizar reportes, dashboards, crear y almacenar artefactos así como también con el hyperparameter optimization, entre otras cualidades interesantes. Cabe mencionar que W&amp;B NO es gratuito, para uso empresarial se debe de adquirir un plan mensual de uso, pero lo bonito es que para nuestros proyectos personales lo podemos usar sin problemas siempre y cuando no excedamos el límite de la capa gratuita. Ahora sí, en este post vamos a explorar Weights &amp; Biases usando uno de los modelos de deep learning para clasificar dígitos escritos a mano (MNIST).</p>
-<h3 id="prerrequisitos">Prerrequisitos</h3>
-<p>El código del modelo que lo podrás encontrar en este repositorio de github</p>
 <h3 id="instalación-e-inicialización-del-wb">Instalación e inicialización del W&amp;B</h3>
-<p>Para poder usar W&amp;B debemos de crear una cuenta en su página aquí el link y una vez que creamos la cuenta nos descargamos la biblioteca de python para usarlo.
+<p>Para poder usar W&amp;B debemos de crear una cuenta en su página aquí el <a href="https://wandb.ai/site">link</a> y una vez que creamos la cuenta nos descargamos la biblioteca de python para usarlo.
 La instalación es muy simple si están usando pip lo pueden hacer de la siguiente manera:</p>
 <p><img src="https://drive.google.com//uc?id=1Jfn47breHvE3NHZhTGVeaFKUOtDbn5y0" alt=""></p>
-<p>una vez que esté instalado tenemos que importar la biblioteca y loguearse.</p>
+<p>una vez que esté instalado tenemos que importar la biblioteca y loguearnos.</p>
 <p><img src="https://drive.google.com//uc?id=1wCLGjp6ws1fhUfGgARv-aMjrcNLcsbHu" alt=""></p>
 <p>Si es la primera vez que haces el login te pedirá un token, dicho token lo tienes que obtener desde esta liga <a href="https://wandb.ai/authorize">https://wandb.ai/authorize</a> misma que te pone en el mensaje de login, copias y pegas el token y listo ya puedes usar W&amp;B en tu proyecto.</p>
 <p><img src="https://drive.google.com//uc?id=1UyfeyLALA4K2HG6Y4zol8reuyWzsQI51" alt=""></p>
@@ -330,7 +328,7 @@ x_prueba <span style="color:#f92672">=</span> x_prueba<span style="color:#f92672
 <p><img src="https://drive.google.com//uc?id=1DDPau9FA4J_a4pU1FI907alMNEe-rXgd" alt=""></p>
 <p>Entre lo más importante que podemos observar es esta sección:</p>
 <p><img src="https://drive.google.com//uc?id=1HRCfakUyTh9NRfCHwqPolDkzqnH1DKzW" alt=""></p>
-<p>La gráfica que se ve arriba después de realizar todas las configuraciones que le pasamos a través de la configuración las va graficando y con ello podemos ir viendo qué configuración es la que más minimiza el <strong>loss</strong> lo cual la configuración de:</p>
+<p>La gráfica que se ve arriba después de realizar todas las configuraciones que le pasamos a través de la configuración las va graficando y con ello podemos ir viendo qué configuración es la que más minimiza el <strong>loss</strong> lo cual la configuración que logra dicho objetivo es:</p>
 <ul>
 <li>batch_size: <strong>32</strong></li>
 <li>learning_rate: <strong>0.005</strong></li>
