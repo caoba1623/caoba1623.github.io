@@ -2,263 +2,208 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Alberto Ortiz</title>
-    <link>https://caoba1623.github.io/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on Alberto Ortiz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Alberto Ortiz - All rights reserved</copyright>
-    <lastBuildDate>Sun, 16 Jan 2022 11:40:11 +0200</lastBuildDate><atom:link href="https://caoba1623.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Jan 2022 11:40:11 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Hyperparameter optimization</title>
-      <link>https://caoba1623.github.io/tags/hyperparameter-optimization/</link>
-      <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/hyperparameter-optimization/</guid>
+      <title>Keras</title>
+      <link>http://localhost:1313/tags/keras/</link>
+      <pubDate>Fri, 21 Jan 2022 11:40:11 +0200</pubDate>
+      <guid>http://localhost:1313/tags/keras/</guid>
       <description></description>
     </item>
-    
-    <item>
-      <title>keras</title>
-      <link>https://caoba1623.github.io/tags/keras/</link>
-      <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/keras/</guid>
-      <description></description>
-    </item>
-    
     <item>
       <title>MNIST</title>
-      <link>https://caoba1623.github.io/tags/mnist/</link>
+      <link>http://localhost:1313/tags/mnist/</link>
+      <pubDate>Fri, 21 Jan 2022 11:40:11 +0200</pubDate>
+      <guid>http://localhost:1313/tags/mnist/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>http://localhost:1313/tags/python/</link>
+      <pubDate>Fri, 21 Jan 2022 11:40:11 +0200</pubDate>
+      <guid>http://localhost:1313/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Red Neuronal Recurrente</title>
+      <link>http://localhost:1313/tags/red-neuronal-recurrente/</link>
+      <pubDate>Fri, 21 Jan 2022 11:40:11 +0200</pubDate>
+      <guid>http://localhost:1313/tags/red-neuronal-recurrente/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Redes Neuronales</title>
+      <link>http://localhost:1313/tags/redes-neuronales/</link>
+      <pubDate>Fri, 21 Jan 2022 11:40:11 +0200</pubDate>
+      <guid>http://localhost:1313/tags/redes-neuronales/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tensorflow</title>
+      <link>http://localhost:1313/tags/tensorflow/</link>
+      <pubDate>Fri, 21 Jan 2022 11:40:11 +0200</pubDate>
+      <guid>http://localhost:1313/tags/tensorflow/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hyperparameter Optimization</title>
+      <link>http://localhost:1313/tags/hyperparameter-optimization/</link>
       <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/mnist/</guid>
+      <guid>http://localhost:1313/tags/hyperparameter-optimization/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>python</title>
-      <link>https://caoba1623.github.io/tags/python/</link>
+      <title>Weights &amp; Biases</title>
+      <link>http://localhost:1313/tags/weights--biases/</link>
       <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/python/</guid>
+      <guid>http://localhost:1313/tags/weights--biases/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>weights &amp; biases</title>
-      <link>https://caoba1623.github.io/tags/weights-biases/</link>
-      <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/weights-biases/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>analisis</title>
-      <link>https://caoba1623.github.io/tags/analisis/</link>
+      <title>Analisis</title>
+      <link>http://localhost:1313/tags/analisis/</link>
       <pubDate>Sun, 21 Mar 2021 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/analisis/</guid>
+      <guid>http://localhost:1313/tags/analisis/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>fake news</title>
-      <link>https://caoba1623.github.io/tags/fake-news/</link>
+      <title>Fake News</title>
+      <link>http://localhost:1313/tags/fake-news/</link>
       <pubDate>Sun, 21 Mar 2021 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/fake-news/</guid>
+      <guid>http://localhost:1313/tags/fake-news/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>machine learning</title>
-      <link>https://caoba1623.github.io/tags/machine-learning/</link>
+      <title>Machine Learning</title>
+      <link>http://localhost:1313/tags/machine-learning/</link>
       <pubDate>Sun, 21 Mar 2021 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/machine-learning/</guid>
+      <guid>http://localhost:1313/tags/machine-learning/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>nlp</title>
-      <link>https://caoba1623.github.io/tags/nlp/</link>
+      <title>Nlp</title>
+      <link>http://localhost:1313/tags/nlp/</link>
       <pubDate>Sun, 21 Mar 2021 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/nlp/</guid>
+      <guid>http://localhost:1313/tags/nlp/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>sklearn</title>
-      <link>https://caoba1623.github.io/tags/sklearn/</link>
+      <title>Sklearn</title>
+      <link>http://localhost:1313/tags/sklearn/</link>
       <pubDate>Sun, 21 Mar 2021 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/sklearn/</guid>
+      <guid>http://localhost:1313/tags/sklearn/</guid>
       <description></description>
     </item>
-    
-    <item>
-      <title>red neuronal recurrente</title>
-      <link>https://caoba1623.github.io/tags/red-neuronal-recurrente/</link>
-      <pubDate>Sun, 01 Nov 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/red-neuronal-recurrente/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>redes neuronales</title>
-      <link>https://caoba1623.github.io/tags/redes-neuronales/</link>
-      <pubDate>Sun, 01 Nov 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/redes-neuronales/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tensorflow</title>
-      <link>https://caoba1623.github.io/tags/tensorflow/</link>
-      <pubDate>Sun, 01 Nov 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/tensorflow/</guid>
-      <description></description>
-    </item>
-    
     <item>
       <title>CNN</title>
-      <link>https://caoba1623.github.io/tags/cnn/</link>
+      <link>http://localhost:1313/tags/cnn/</link>
       <pubDate>Mon, 21 Sep 2020 16:26:30 -0600</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/cnn/</guid>
+      <guid>http://localhost:1313/tags/cnn/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>convolucion</title>
-      <link>https://caoba1623.github.io/tags/convolucion/</link>
+      <title>Convolucion</title>
+      <link>http://localhost:1313/tags/convolucion/</link>
       <pubDate>Mon, 21 Sep 2020 16:26:30 -0600</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/convolucion/</guid>
+      <guid>http://localhost:1313/tags/convolucion/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>scipy</title>
-      <link>https://caoba1623.github.io/tags/scipy/</link>
+      <title>Scipy</title>
+      <link>http://localhost:1313/tags/scipy/</link>
       <pubDate>Sat, 19 Sep 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/scipy/</guid>
+      <guid>http://localhost:1313/tags/scipy/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>series de tiempo</title>
-      <link>https://caoba1623.github.io/tags/series-de-tiempo/</link>
+      <title>Series De Tiempo</title>
+      <link>http://localhost:1313/tags/series-de-tiempo/</link>
       <pubDate>Sat, 19 Sep 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/series-de-tiempo/</guid>
+      <guid>http://localhost:1313/tags/series-de-tiempo/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>timeseries</title>
-      <link>https://caoba1623.github.io/tags/timeseries/</link>
+      <title>Timeseries</title>
+      <link>http://localhost:1313/tags/timeseries/</link>
       <pubDate>Sat, 19 Sep 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/timeseries/</guid>
+      <guid>http://localhost:1313/tags/timeseries/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>n-gram</title>
-      <link>https://caoba1623.github.io/tags/n-gram/</link>
+      <title>N-Gram</title>
+      <link>http://localhost:1313/tags/n-gram/</link>
       <pubDate>Fri, 14 Aug 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/n-gram/</guid>
+      <guid>http://localhost:1313/tags/n-gram/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>natural languaje processing</title>
-      <link>https://caoba1623.github.io/tags/natural-languaje-processing/</link>
+      <title>Natural Languaje Processing</title>
+      <link>http://localhost:1313/tags/natural-languaje-processing/</link>
       <pubDate>Fri, 14 Aug 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/natural-languaje-processing/</guid>
+      <guid>http://localhost:1313/tags/natural-languaje-processing/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>tf-idf</title>
-      <link>https://caoba1623.github.io/tags/tf-idf/</link>
+      <title>Tf-Idf</title>
+      <link>http://localhost:1313/tags/tf-idf/</link>
       <pubDate>Fri, 14 Aug 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/tf-idf/</guid>
+      <guid>http://localhost:1313/tags/tf-idf/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>exploracion</title>
-      <link>https://caoba1623.github.io/tags/exploracion/</link>
+      <title>Exploracion</title>
+      <link>http://localhost:1313/tags/exploracion/</link>
       <pubDate>Wed, 29 Jul 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/exploracion/</guid>
+      <guid>http://localhost:1313/tags/exploracion/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>pyspark</title>
-      <link>https://caoba1623.github.io/tags/pyspark/</link>
+      <title>Pyspark</title>
+      <link>http://localhost:1313/tags/pyspark/</link>
       <pubDate>Wed, 29 Jul 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/pyspark/</guid>
+      <guid>http://localhost:1313/tags/pyspark/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>retail</title>
-      <link>https://caoba1623.github.io/tags/retail/</link>
+      <title>Retail</title>
+      <link>http://localhost:1313/tags/retail/</link>
       <pubDate>Wed, 29 Jul 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/retail/</guid>
+      <guid>http://localhost:1313/tags/retail/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>CDMX</title>
-      <link>https://caoba1623.github.io/tags/cdmx/</link>
+      <link>http://localhost:1313/tags/cdmx/</link>
       <pubDate>Mon, 27 Jul 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/cdmx/</guid>
+      <guid>http://localhost:1313/tags/cdmx/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>crimen</title>
-      <link>https://caoba1623.github.io/tags/crimen/</link>
+      <title>Crimen</title>
+      <link>http://localhost:1313/tags/crimen/</link>
       <pubDate>Mon, 27 Jul 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/crimen/</guid>
+      <guid>http://localhost:1313/tags/crimen/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>delitos</title>
-      <link>https://caoba1623.github.io/tags/delitos/</link>
+      <title>Delitos</title>
+      <link>http://localhost:1313/tags/delitos/</link>
       <pubDate>Mon, 27 Jul 2020 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/delitos/</guid>
+      <guid>http://localhost:1313/tags/delitos/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>interesting</title>
-      <link>https://caoba1623.github.io/tags/interesting/</link>
+      <title>Interesting</title>
+      <link>http://localhost:1313/tags/interesting/</link>
       <pubDate>Sun, 07 Oct 2018 11:40:11 +0200</pubDate>
-      
-      <guid>https://caoba1623.github.io/tags/interesting/</guid>
+      <guid>http://localhost:1313/tags/interesting/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>
