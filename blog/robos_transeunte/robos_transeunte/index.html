@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="generator" content="Hugo 0.123.7">
+	
+	<link rel="icon" href="/images/logo.png">
+	
+	<title>Portafolio | Alberto Ortiz</title>
+	
+	
+
+	<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="[3] Optimización de hiper parámetros y monitoreo del modelo"/>
+<meta name="twitter:description" content="En ocasiones los científicos de datos tienden a realizar los modelos de manera artesanal limitándose a realizar un par de ejecuciones con diferentes hiper parámetros y eligiendo el modelo que mejor desempeño tuvo en la etapa de entrenamiento y validación dependiendo de la métrica (accuracy, precision, recall, F1-score, ROC, AUC, etc."/>
+
+	<meta property="og:title" content="[3] Optimización de hiper parámetros y monitoreo del modelo" />
+<meta property="og:description" content="En ocasiones los científicos de datos tienden a realizar los modelos de manera artesanal limitándose a realizar un par de ejecuciones con diferentes hiper parámetros y eligiendo el modelo que mejor desempeño tuvo en la etapa de entrenamiento y validación dependiendo de la métrica (accuracy, precision, recall, F1-score, ROC, AUC, etc." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://caoba1623.github.io/blog/robos_transeunte/robos_transeunte/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2020-11-01T11:40:11+02:00" />
+<meta property="article:modified_time" content="2022-01-21T11:40:11+02:00" />
+
+
+
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+
+	
+	<link rel="stylesheet" href="https://caoba1623.github.io/css/medium.6971b630a000d0cbb4d82c9a9ec50c3a9065960184ea012350c9d0f97b825f8b.css" integrity="sha256-aXG2MKAA0Mu02CyansUMOpBllgGE6gEjUMnQ&#43;XuCX4s=">
+
+	
+	<link rel="stylesheet" href="https://caoba1623.github.io/css/additional.8819b6defcdc6d21280f9b402b00df87ca779135901de6c22e708c62e20184b9.css" integrity="sha256-iBm23vzcbSEoD5tAKwDfh8p3kTWQHebCLnCMYuIBhLk=">
+
+	
+	
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+    <div class="container pr-0">
+        
+        <a class="navbar-brand" href="https://caoba1623.github.io//">
+
+            
+            <img src="/images/logo.png" alt="logo">
+            
+        </a>
+        
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        
+        <div class="collapse navbar-collapse" id="navbarMediumish">
+            
+            <ul class="navbar-nav ml-auto">
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/blog">Blog</a>
+                </li>
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/">About Me</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</nav>
+
+
+        <div class="site-content">   
+            <div class="container">
+    
+    <div class="main-content">
+        
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-md-2 pl-0"><div class="share sticky-top sticky-top-offset">
+    
+
+    
+</div>
+</div>
+                                
+                <div class="col-md-9 flex-first flex-md-unordered">
+                    <div class="mainheading">
+                        	
+                        
+                        
+                        
+                        <div class="row post-top-meta">
+                            <div class="col-xs-12 col-md-3 col-lg-2 text-center text-md-left mb-4 mb-md-0 md-nopad-right">
+                                <img class="author-thumb" src="/images/author.jpeg" alt="Alberto Ortiz">
+                            </div>
+                            <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left md-nopad-left">
+                                <a target="_blank" class="link-dark">Alberto Ortiz</a><br>
+                                <span class="author-description">
+                                    Data Engineer<br>
+                                    <i class="far fa-star"></i>
+                                    Nov 1, 2020
+                                    <i class="far fa-clock clock"></i>
+                                    18 min read
+                                </span>					
+                            </div>
+                        </div>			
+                        	
+                        
+                                                
+                        
+                        <h1 class="posttitle">[3] Optimización de hiper parámetros y monitoreo del modelo</h1> 
+                    </div>
+                    <img class="featured-image img-fluid" src="/images/blog/blog13.jpg" alt="thumbnail for this post">
+                    
+
+                    
+                    <div class="article-post">
+                        <p>En ocasiones los científicos de datos tienden a realizar los modelos de manera artesanal limitándose a realizar un par de ejecuciones con diferentes hiper parámetros y eligiendo el modelo que mejor desempeño tuvo en la etapa de entrenamiento y validación dependiendo de la métrica (accuracy, precision, recall, F1-score, ROC, AUC, etc.) y claro también del problema que están atacando (classification, regression, etc.) Lo antes mencionado resulta bastante tedioso de realizar de forma manual sin contar que conlleva bastante tiempo realizar los ajustes en los modelos y en sus ejecuciones individuales, todo esto para encontrar aquellos hiper parámetros con los cuales entrenar el modelo.</p>
+<p>Por otra parte y una vez entrenado el modelo con los hiper parámetros óptimos que se encontraron en el experiment tracking, debemos de monitorear el modelo, lo cual nos permitirá identificar y eliminar variedad de errores, sesgos, entre otros problemas que se pueden ir presentando a lo largo del ciclo de vida del sistema y evitar una mala calidad en las predicciones y un pobre rendimiento del modelo, cuidando siempre la salud del mismo en el ambiente productivo.
+Para ayudarnos con lo antes mencionado nos vamos a apoyar de una herramienta llamada Weights and Bias.</p>
+<p>En este post indagaremos en:</p>
+<ul>
+<li>Cómo usar Weights and Bias con keras</li>
+<li>Optimización de los hiperparametros de nuestro modelo</li>
+<li>Elección de los hiperparametros que mejor rendimiento tuvieron</li>
+<li>Entrenamiento el modelo con los hiperparametros encontrados</li>
+<li>Probar el modelo con los datos de test</li>
+<li>Añadir componentes en W&amp;B</li>
+</ul>
+<h4 id="weights-and-bias">Weights and Bias</h4>
+<p>Para usar Weights and Bias (<strong>W&amp;B</strong> para abreviar) en nuestro proyecto es necesario importarlo primero de la siguiente manera e importar el callback para usarlo con keras (si aun no lo tienes instalado y configurado aquí dejo un post con el tema link).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#importamos W&amp;B</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> wandb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#importamos el callback necesarios para poder usarlo con keras</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> wandb.keras <span style="color:#f92672">import</span> WandbCallback
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#realizamos el login</span>
+</span></span><span style="display:flex;"><span>wandb<span style="color:#f92672">.</span>login()
+</span></span></code></pre></div><p>Importamos las bibliotecas que ocupararemos a lo largo del proyecto:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> sys
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> datetime
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib <span style="color:#66d9ef">as</span> mpl
+</span></span><span style="display:flex;"><span><span style="color:#f92672">%</span>matplotlib inline
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tqdm
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tensorflow <span style="color:#66d9ef">as</span> tf
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tensorflow.keras <span style="color:#f92672">import</span> Sequential, layers
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tensorflow.keras.layers <span style="color:#f92672">import</span> ConvLSTM2D, BatchNormalization, MaxPool3D, Conv3D, Dropout
+</span></span></code></pre></div><p>Importamos los datos que preparamos en posts pasados</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">transform_to_narray</span>(dic, sequence_len, sequence_main, inner_sequence):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    main_list <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(dic[sequence_len]):
+</span></span><span style="display:flex;"><span>        temp_list <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range( sequence_days ):
+</span></span><span style="display:flex;"><span>            temp_list<span style="color:#f92672">.</span>append(dic[sequence_main][j][i][inner_sequence])
+</span></span><span style="display:flex;"><span>        main_list<span style="color:#f92672">.</span>append(temp_list)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    matrix    <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(main_list)
+</span></span><span style="display:flex;"><span>    matrix_re <span style="color:#f92672">=</span> matrix<span style="color:#f92672">.</span>reshape( (dic[sequence_len],sequence_days,<span style="color:#ae81ff">36</span>,<span style="color:#ae81ff">36</span>) )
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>expand_dims(matrix_re, axis<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> data
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>train_set_path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;./data/train_data/train_data.json&#39;</span>
+</span></span><span style="display:flex;"><span>val_set_path   <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;./data/validate_data/val_data.json&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sequence_days <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>tr <span style="color:#f92672">=</span> open(train_set_path)
+</span></span><span style="display:flex;"><span>train_data_dic <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(tr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>X_train_data <span style="color:#f92672">=</span> transform_to_narray(train_data_dic, <span style="color:#e6db74">&#39;X_train_sequence_len&#39;</span>,<span style="color:#e6db74">&#39;X_train_sequence&#39;</span>, <span style="color:#e6db74">&#39;X_sequence&#39;</span>)
+</span></span><span style="display:flex;"><span>y_train_data <span style="color:#f92672">=</span> transform_to_narray(train_data_dic, <span style="color:#e6db74">&#39;X_train_sequence_len&#39;</span>,<span style="color:#e6db74">&#39;y_train_sequence&#39;</span>, <span style="color:#e6db74">&#39;y_sequence&#39;</span>)
+</span></span><span style="display:flex;"><span>X_train_data<span style="color:#f92672">.</span>shape, y_train_data<span style="color:#f92672">.</span>shape
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ((859, 7, 36, 36, 1), (859, 7, 36, 36, 1))</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>val <span style="color:#f92672">=</span> open(val_set_path)
+</span></span><span style="display:flex;"><span>val_data_dic <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(val)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>X_val_data <span style="color:#f92672">=</span> transform_to_narray(val_data_dic, <span style="color:#e6db74">&#39;X_val_sequence_len&#39;</span>,<span style="color:#e6db74">&#39;X_val_sequence&#39;</span>, <span style="color:#e6db74">&#39;X_sequence&#39;</span>)
+</span></span><span style="display:flex;"><span>y_val_data <span style="color:#f92672">=</span> transform_to_narray(val_data_dic, <span style="color:#e6db74">&#39;X_val_sequence_len&#39;</span>,<span style="color:#e6db74">&#39;y_val_sequence&#39;</span>, <span style="color:#e6db74">&#39;y_sequence&#39;</span>)
+</span></span><span style="display:flex;"><span>X_val_data<span style="color:#f92672">.</span>shape, y_val_data<span style="color:#f92672">.</span>shape
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#((193, 7, 36, 36, 1), (193, 7, 36, 36, 1))</span>
+</span></span></code></pre></div><p>Colocamos el valor de <strong>1</strong> a todos aquellos valores que sean mayores a la misma cantidad, esto es para manejar un problema binario, es decir, por región manejar valores <strong>0-Sin evento</strong>, <strong>1-Paso un evento de robo</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>X_train_data[X_train_data<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>y_train_data[y_train_data<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>X_val_data[X_val_data<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span>]    <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>y_val_data[y_val_data<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span>]    <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><h4 id="optimización-de-los-hiperparametros">Optimización de los hiperparametros</h4>
+<p>Una vez que ya tenemos nuestros datos es momento de pasar a realizar la optimización de los hiperparametros y para eso vamos a lo que sigue:</p>
+<p>Nuestro modelo como función.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convlstm_model</span>():
+</span></span><span style="display:flex;"><span>    input_l <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>Input(shape<span style="color:#f92672">=</span>(<span style="color:#66d9ef">None</span>, <span style="color:#f92672">*</span>X_train_data<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">2</span>:]))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>ConvLSTM2D(
+</span></span><span style="display:flex;"><span>        filters <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>,
+</span></span><span style="display:flex;"><span>        kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>        padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>,
+</span></span><span style="display:flex;"><span>        return_sequences<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>        activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>,)(input_l)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>BatchNormalization()(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> Dropout(<span style="color:#ae81ff">.2</span>, input_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, ))(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>ConvLSTM2D(
+</span></span><span style="display:flex;"><span>        filters<span style="color:#f92672">=</span><span style="color:#ae81ff">16</span>,
+</span></span><span style="display:flex;"><span>        kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>        padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>,
+</span></span><span style="display:flex;"><span>        return_sequences<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>        activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;relu&#34;</span>,)(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>BatchNormalization()(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> Dropout(<span style="color:#ae81ff">.2</span>, input_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, ))(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>ConvLSTM2D(
+</span></span><span style="display:flex;"><span>        filters <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>        kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>        padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>,
+</span></span><span style="display:flex;"><span>        return_sequences<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>        activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>,)(input_l)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>BatchNormalization()(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> Dropout(<span style="color:#ae81ff">.2</span>, input_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, ))(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>ConvLSTM2D(
+</span></span><span style="display:flex;"><span>        filters <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>        kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>        padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>,
+</span></span><span style="display:flex;"><span>        return_sequences<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>        activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>,)(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>BatchNormalization()(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> Dropout(<span style="color:#ae81ff">.2</span>, input_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, ))(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>ConvLSTM2D(
+</span></span><span style="display:flex;"><span>        filters <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>        kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>        padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>,
+</span></span><span style="display:flex;"><span>        return_sequences<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>        activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>,)(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>Conv3D(
+</span></span><span style="display:flex;"><span>        filters<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, 
+</span></span><span style="display:flex;"><span>        kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>), 
+</span></span><span style="display:flex;"><span>        activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sigmoid&#34;</span>, 
+</span></span><span style="display:flex;"><span>        padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>)(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>Model(input_l, x)
+</span></span></code></pre></div><p>Otras funciones que nos permitirán hacer el entrenamiento de manera controlada y obteniendo los valores que se van generando en cada paso.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train_step</span>(x, y, model, optimizer, loss_fn, train_acc_metric):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>GradientTape() <span style="color:#66d9ef">as</span> tape:
+</span></span><span style="display:flex;"><span>        logits <span style="color:#f92672">=</span> model(x, training<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        loss_value <span style="color:#f92672">=</span> loss_fn(y, logits)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    grads <span style="color:#f92672">=</span> tape<span style="color:#f92672">.</span>gradient(loss_value, model<span style="color:#f92672">.</span>trainable_weights)
+</span></span><span style="display:flex;"><span>    optimizer<span style="color:#f92672">.</span>apply_gradients(zip(grads, model<span style="color:#f92672">.</span>trainable_weights))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    train_acc_metric<span style="color:#f92672">.</span>update_state(y, logits)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> loss_value
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_step</span>(x, y, model, loss_fn, val_acc_metric):
+</span></span><span style="display:flex;"><span>    val_logits <span style="color:#f92672">=</span> model(x, training<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    loss_value <span style="color:#f92672">=</span> loss_fn(y, val_logits)
+</span></span><span style="display:flex;"><span>    val_acc_metric<span style="color:#f92672">.</span>update_state(y, val_logits)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> loss_value
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>(train_dataset,val_dataset, model,optimizer,loss_fn,train_acc_metric,val_acc_metric,
+</span></span><span style="display:flex;"><span>          epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, 
+</span></span><span style="display:flex;"><span>          log_step<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>, 
+</span></span><span style="display:flex;"><span>          val_log_step<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>):
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(epochs):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Start of epoch </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (epoch,))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        train_loss <span style="color:#f92672">=</span> []   
+</span></span><span style="display:flex;"><span>        val_loss <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Iterate over the batches of the dataset</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> step, (x_batch_train, y_batch_train) <span style="color:#f92672">in</span> tqdm<span style="color:#f92672">.</span>tqdm(enumerate(train_dataset), total<span style="color:#f92672">=</span>len(train_dataset)):
+</span></span><span style="display:flex;"><span>            loss_value <span style="color:#f92672">=</span> train_step(x_batch_train, y_batch_train, 
+</span></span><span style="display:flex;"><span>                                    model, optimizer, 
+</span></span><span style="display:flex;"><span>                                    loss_fn, train_acc_metric)
+</span></span><span style="display:flex;"><span>            train_loss<span style="color:#f92672">.</span>append(float(loss_value))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Run a validation loop at the end of each epoch</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> step, (x_batch_val, y_batch_val) <span style="color:#f92672">in</span> enumerate(val_dataset):
+</span></span><span style="display:flex;"><span>            val_loss_value <span style="color:#f92672">=</span> test_step(x_batch_val, y_batch_val, 
+</span></span><span style="display:flex;"><span>                                      model, loss_fn, 
+</span></span><span style="display:flex;"><span>                                      val_acc_metric)
+</span></span><span style="display:flex;"><span>            val_loss<span style="color:#f92672">.</span>append(float(val_loss_value))
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Display metrics at the end of each epoch</span>
+</span></span><span style="display:flex;"><span>        train_acc <span style="color:#f92672">=</span> train_acc_metric<span style="color:#f92672">.</span>result()
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Training acc over epoch: </span><span style="color:#e6db74">%.4f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (float(train_acc),))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        val_acc <span style="color:#f92672">=</span> val_acc_metric<span style="color:#f92672">.</span>result()
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Validation acc: </span><span style="color:#e6db74">%.4f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (float(val_acc),))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Reset metrics at the end of each epoch</span>
+</span></span><span style="display:flex;"><span>        train_acc_metric<span style="color:#f92672">.</span>reset_states()
+</span></span><span style="display:flex;"><span>        val_acc_metric<span style="color:#f92672">.</span>reset_states()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># log metrics using wandb.log</span>
+</span></span><span style="display:flex;"><span>        wandb<span style="color:#f92672">.</span>log({<span style="color:#e6db74">&#39;epochs&#39;</span>: epoch,
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#39;loss&#39;</span>: np<span style="color:#f92672">.</span>mean(train_loss),
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#39;acc&#39;</span>: float(train_acc), 
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#39;val_loss&#39;</span>: np<span style="color:#f92672">.</span>mean(val_loss),
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#39;val_acc&#39;</span>:float(val_acc)})
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sweep_train</span>(config_defaults<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Set default values</span>
+</span></span><span style="display:flex;"><span>    config_defaults <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;batch_size&#34;</span>: <span style="color:#ae81ff">64</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;learning_rate&#34;</span>: <span style="color:#ae81ff">0.01</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Initialize wandb with a sample project name</span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>init(config<span style="color:#f92672">=</span>config_defaults)  <span style="color:#75715e"># this gets over-written in the Sweep</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Specify the other hyperparameters to the configuration, if any</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#wandb.config.epochs = 2</span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>log_step <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>val_log_step <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>architecture_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MLP&#34;</span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>dataset_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MNIST&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># build input pipeline using tf.data</span>
+</span></span><span style="display:flex;"><span>    train_dataset <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>Dataset<span style="color:#f92672">.</span>from_tensor_slices((X_train_data, y_train_data))
+</span></span><span style="display:flex;"><span>    train_dataset <span style="color:#f92672">=</span> (train_dataset<span style="color:#f92672">.</span>shuffle(buffer_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1024</span>)
+</span></span><span style="display:flex;"><span>                                  <span style="color:#f92672">.</span>batch(wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>batch_size)
+</span></span><span style="display:flex;"><span>                                  <span style="color:#f92672">.</span>prefetch(buffer_size<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>experimental<span style="color:#f92672">.</span>AUTOTUNE))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    val_dataset <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>Dataset<span style="color:#f92672">.</span>from_tensor_slices((X_val_data, y_val_data))
+</span></span><span style="display:flex;"><span>    val_dataset <span style="color:#f92672">=</span> (val_dataset<span style="color:#f92672">.</span>batch(wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>batch_size)
+</span></span><span style="display:flex;"><span>                              <span style="color:#f92672">.</span>prefetch(buffer_size<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>experimental<span style="color:#f92672">.</span>AUTOTUNE))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># initialize model</span>
+</span></span><span style="display:flex;"><span>    model <span style="color:#f92672">=</span> convlstm_model()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Instantiate an optimizer to train the model.</span>
+</span></span><span style="display:flex;"><span>    optimizer <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>optimizers<span style="color:#f92672">.</span>Adam(learning_rate<span style="color:#f92672">=</span>wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>learning_rate)
+</span></span><span style="display:flex;"><span>              
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Instantiate a loss function.</span>
+</span></span><span style="display:flex;"><span>    loss_fn <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>losses<span style="color:#f92672">.</span>BinaryCrossentropy(from_logits<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Prepare the metrics.</span>
+</span></span><span style="display:flex;"><span>    train_acc_metric <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>metrics<span style="color:#f92672">.</span>BinaryAccuracy()
+</span></span><span style="display:flex;"><span>    val_acc_metric   <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>metrics<span style="color:#f92672">.</span>BinaryAccuracy()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    train(train_dataset,
+</span></span><span style="display:flex;"><span>          val_dataset, 
+</span></span><span style="display:flex;"><span>          model,
+</span></span><span style="display:flex;"><span>          optimizer,
+</span></span><span style="display:flex;"><span>          loss_fn,
+</span></span><span style="display:flex;"><span>          train_acc_metric,
+</span></span><span style="display:flex;"><span>          val_acc_metric,
+</span></span><span style="display:flex;"><span>          epochs<span style="color:#f92672">=</span>wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>epochs, 
+</span></span><span style="display:flex;"><span>          log_step<span style="color:#f92672">=</span>wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>log_step, 
+</span></span><span style="display:flex;"><span>          val_log_step<span style="color:#f92672">=</span>wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>val_log_step)
+</span></span></code></pre></div><p>Para poder realizar la optimización de los hiperparametros y que se vayan capturando en W&amp;B es necesario definir una estructura de configuración con los parámetros a usar nuestro proyecto lo vamos a definir de la siguiente manera:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sweep_config <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;method&#39;</span>: <span style="color:#e6db74">&#39;random&#39;</span>, 
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;metric&#39;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;name&#39;</span>: <span style="color:#e6db74">&#39;val_acc&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;goal&#39;</span>: <span style="color:#e6db74">&#39;maximize&#39;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;early_terminate&#39;</span>:{
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;type&#39;</span>: <span style="color:#e6db74">&#39;hyperband&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;min_iter&#39;</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;parameters&#39;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;batch_size&#39;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#39;values&#39;</span>: [<span style="color:#ae81ff">24</span>, <span style="color:#ae81ff">64</span>]
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;learning_rate&#39;</span>:{
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#39;values&#39;</span>: [<span style="color:#ae81ff">0.001</span>, <span style="color:#ae81ff">0.0001</span>]
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;epochs&#39;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#39;value&#39;</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Básicamente la interpretación es:</p>
+<p>vamos a buscar la configuración que maximice el <strong>val_acc</strong> iterando sobre los parámetros de <strong>batch_size = [24, 64]</strong> y <strong>learning_rate = [0.001, 0.0001]</strong>.</p>
+<p>Inicializamos el sweep:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sweep_id <span style="color:#f92672">=</span> wandb<span style="color:#f92672">.</span>sweep(sweep_config, project<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sweeps-convlstm&#34;</span>)
+</span></span></code></pre></div><p>y se lo pasamos a W&amp;B para que empiece la ejecución.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wandb<span style="color:#f92672">.</span>agent(sweep_id, function<span style="color:#f92672">=</span>sweep_train, count<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+</span></span></code></pre></div><p>Empezarás a ver una salida como la siguiente:</p>
+<p><img src="https://drive.google.com//uc?id=1TQaJlZP-Om6R6yBLleRvuYZosU76XCGZ" alt=""></p>
+<p>y si le das click en la url donde dice <strong>Sweep page</strong> te llevará a la interfaz de W&amp;B y se puede empezar a ver varias métricas que se van graficando conforme se va ejecutando.</p>
+<p><img src="https://drive.google.com//uc?id=1Lvm5z_NFtwC9WAl8StrKBQcHYGZEW2vp" alt=""></p>
+<p><img src="https://drive.google.com//uc?id=1dYvH9bJEgXZq2xkcWobKwr88glp2IZ-a" alt=""></p>
+<p>Para nuestros propósitos la siguiente sección es la que más nos interesa. Una vez que terminen todas las ejecuciones nos quedará una gráfica como sigue:</p>
+<p><img src="https://drive.google.com//uc?id=1vSO1xq7AIsD3TpXYyxz4FTaMemmpwjg6" alt=""></p>
+<p>Como se puede interpretar es, de los parámetros que te pase en la configuración <strong>batch_size</strong> (lado izquierdo) y <strong>learning_rate</strong> (parte central) qué resultado me dan un <strong>val_acc</strong> más alto (parte derecha).</p>
+<p>Y como nuestro objetivo es buscar los valores que maximizan el <strong>val_acc</strong>, procedemos a encontrar dichos valores y en el siguiente screenshot se muestra que los valores de:</p>
+<ul>
+<li>batch_size = 24</li>
+<li>learning_rate = 0.0001</li>
+</ul>
+<p>Nos maximiza el val_acc con 0.9737.</p>
+<p><img src="https://drive.google.com//uc?id=1g-Dy0uZNUStYpDlCVm7ppoFq5RWinFuS" alt=""></p>
+<p>Si bien hay otras configuraciones que nos dan el mismo val_acc me quedaré con el antes mencionado.</p>
+<h4 id="heart-entrenamiento-del-modelo-con-los-hiperparametros">&#x2764;&#xfe0f; Entrenamiento del modelo con los hiperparametros</h4>
+<p>Anteriormente ya observamos los hiperparametros con los cuales entrenar nuestro modelo así que simplemente vamos a ello.</p>
+<p>Definimos nuestro código del modelo.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>input_l <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>Input(shape<span style="color:#f92672">=</span>(<span style="color:#66d9ef">None</span>, <span style="color:#f92672">*</span>X_train_data<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">2</span>:]))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>ConvLSTM2D(
+</span></span><span style="display:flex;"><span>    filters <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>,
+</span></span><span style="display:flex;"><span>    kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>    padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>,
+</span></span><span style="display:flex;"><span>    return_sequences<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>    activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>,)(input_l)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>BatchNormalization()(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> Dropout(<span style="color:#ae81ff">.2</span>, input_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, ))(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>ConvLSTM2D(
+</span></span><span style="display:flex;"><span>    filters<span style="color:#f92672">=</span><span style="color:#ae81ff">16</span>,
+</span></span><span style="display:flex;"><span>    kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>    padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>,
+</span></span><span style="display:flex;"><span>    return_sequences<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>    activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;relu&#34;</span>,)(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>BatchNormalization()(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> Dropout(<span style="color:#ae81ff">.2</span>, input_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, ))(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>ConvLSTM2D(
+</span></span><span style="display:flex;"><span>    filters <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>    kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>    padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>,
+</span></span><span style="display:flex;"><span>    return_sequences<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>    activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>,)(input_l)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>BatchNormalization()(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> Dropout(<span style="color:#ae81ff">.2</span>, input_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, ))(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>ConvLSTM2D(
+</span></span><span style="display:flex;"><span>    filters <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>    padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>,
+</span></span><span style="display:flex;"><span>    return_sequences<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>    activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>,)(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>BatchNormalization()(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> Dropout(<span style="color:#ae81ff">.2</span>, input_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, ))(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>ConvLSTM2D(
+</span></span><span style="display:flex;"><span>    filters <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>    kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>    padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>,
+</span></span><span style="display:flex;"><span>    return_sequences<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>    activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>,)(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> layers<span style="color:#f92672">.</span>Conv3D(
+</span></span><span style="display:flex;"><span>    filters<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, 
+</span></span><span style="display:flex;"><span>    kernel_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>), 
+</span></span><span style="display:flex;"><span>    activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sigmoid&#34;</span>, 
+</span></span><span style="display:flex;"><span>    padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;same&#34;</span>)(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>Model(input_l, x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>model<span style="color:#f92672">.</span>compile(
+</span></span><span style="display:flex;"><span>    loss<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>losses<span style="color:#f92672">.</span>binary_crossentropy, 
+</span></span><span style="display:flex;"><span>    optimizer<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>optimizers<span style="color:#f92672">.</span>Adam(learning_rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0001</span>),
+</span></span><span style="display:flex;"><span>    metrics<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;accuracy&#39;</span>]
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Define modifiable training hyperparameters.</span>
+</span></span><span style="display:flex;"><span>epochs     <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>batch_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">24</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Fit the model to the training data.</span>
+</span></span><span style="display:flex;"><span>history<span style="color:#f92672">=</span>model<span style="color:#f92672">.</span>fit(
+</span></span><span style="display:flex;"><span>      X_train_data,
+</span></span><span style="display:flex;"><span>      y_train_data,
+</span></span><span style="display:flex;"><span>      batch_size<span style="color:#f92672">=</span>batch_size,
+</span></span><span style="display:flex;"><span>      epochs<span style="color:#f92672">=</span>epochs,
+</span></span><span style="display:flex;"><span>      validation_data<span style="color:#f92672">=</span>(X_val_data, y_val_data)
+</span></span><span style="display:flex;"><span>  )
+</span></span></code></pre></div><p>Y ya para terminar guardamos nuestro modelo.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>model<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;model_convlstm.h5&#39;</span>)
+</span></span></code></pre></div><h4 id="probar-el-modelo-con-los-datos-de-test">Probar el modelo con los datos de test</h4>
+<p>Ahora que ya realizamos la optimización de los hiperparametros con los que maximizamos el accuracy de nuestro modelo y entrenamos con dichos hiperparametros y guardamos el modelo es hora de probar cómo le va con datos que no ha visto anteriormente.</p>
+<p>Importamos los datos de test que transformamos en post pasados.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>test_set_path  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;./data/test_data/test_data.json&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>te <span style="color:#f92672">=</span> open(test_set_path)
+</span></span><span style="display:flex;"><span>test_data_dic <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(te)
+</span></span></code></pre></div><p>Transformamos los datos.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>X_test_data <span style="color:#f92672">=</span> transform_to_narray(test_data_dic, <span style="color:#e6db74">&#39;X_test_sequence_len&#39;</span>,<span style="color:#e6db74">&#39;X_test_sequence&#39;</span>, <span style="color:#e6db74">&#39;X_sequence&#39;</span>)
+</span></span><span style="display:flex;"><span>y_test_data <span style="color:#f92672">=</span> transform_to_narray(test_data_dic, <span style="color:#e6db74">&#39;X_test_sequence_len&#39;</span>,<span style="color:#e6db74">&#39;y_test_sequence&#39;</span>, <span style="color:#e6db74">&#39;y_sequence&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>X_test_data<span style="color:#f92672">.</span>shape, y_test_data<span style="color:#f92672">.</span>shape
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ((22, 7, 36, 36, 1), (22, 7, 36, 36, 1))</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>X_days <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>y_days <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(test_data_dic[<span style="color:#e6db74">&#39;X_test_sequence_len&#39;</span>]):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range( sequence_days ):
+</span></span><span style="display:flex;"><span>        X_days<span style="color:#f92672">.</span>append(test_data_dic[<span style="color:#e6db74">&#39;X_test_sequence&#39;</span>][j][i][<span style="color:#e6db74">&#39;fecha&#39;</span>])
+</span></span><span style="display:flex;"><span>        y_days<span style="color:#f92672">.</span>append(test_data_dic[<span style="color:#e6db74">&#39;y_test_sequence&#39;</span>][j][i][<span style="color:#e6db74">&#39;fecha&#39;</span>])
+</span></span></code></pre></div><p>Vamos a almacenar los datos en otra carpeta, esto con la finalidad de realizar un análisis más profundo sobre los resultados.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>folder_write <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;./analytics_zone/experiment_results_zone/structure_predictions/&#39;</span>
+</span></span></code></pre></div><p>Cargamos el modelo que previamente guardamos.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>model <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>load_model(<span style="color:#e6db74">&#39;model_convlstm.h5&#39;</span>)
+</span></span></code></pre></div><p>Y realizamos las predicciones.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>predictions <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>predict( X_test_data )
+</span></span><span style="display:flex;"><span>predictions<span style="color:#f92672">.</span>shape, y_test_data<span style="color:#f92672">.</span>shape
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ((22, 7, 36, 36, 1), (22, 7, 36, 36, 1))</span>
+</span></span></code></pre></div><p>Filtramos el resultado de cada una de las predicciones, esto con el objetivo de tener las zonas con mayor riesgo y eliminar aquellas zonas en las cuales se tenga un riesgo bajo de que ocurra un delito. Para lo antes mencionado dejaremos los valores mayores al percentil de 95.</p>
+<p>El siguiente código recorre por pares (predicción, el valor real) y va almacenando los resultados en formato csv organizándolos por año y mes.
+s.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>percentil <span style="color:#f92672">=</span> <span style="color:#ae81ff">95</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> j, seq_y_hat, seq_y <span style="color:#f92672">in</span> zip(range(test_data_dic[<span style="color:#e6db74">&#39;X_test_sequence_len&#39;</span>]), predictions, y_test_data):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, day_y_hat, day_y <span style="color:#f92672">in</span> zip(range(sequence_days),seq_y_hat, seq_y):
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        prediction <span style="color:#f92672">=</span> day_y_hat<span style="color:#f92672">.</span>reshape( (<span style="color:#ae81ff">36</span>,<span style="color:#ae81ff">36</span>) )
+</span></span><span style="display:flex;"><span>        prediction[prediction <span style="color:#f92672">&lt;</span> np<span style="color:#f92672">.</span>percentile(prediction, percentil)] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        ground_truth <span style="color:#f92672">=</span> day_y<span style="color:#f92672">.</span>reshape( (<span style="color:#ae81ff">36</span>,<span style="color:#ae81ff">36</span>) )
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        fecha <span style="color:#f92672">=</span> test_data_dic[<span style="color:#e6db74">&#39;y_test_sequence&#39;</span>][j][i][<span style="color:#e6db74">&#39;fecha&#39;</span>]
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        isExist <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(folder_write <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;seq&#39;</span> <span style="color:#f92672">+</span> str(j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span> <span style="color:#f92672">+</span> fecha[:<span style="color:#ae81ff">4</span>] <span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span> fecha[<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">7</span>])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> isExist:
+</span></span><span style="display:flex;"><span>            os<span style="color:#f92672">.</span>makedirs(folder_write <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;seq&#39;</span> <span style="color:#f92672">+</span> str(j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;/&#39;</span> <span style="color:#f92672">+</span> fecha[:<span style="color:#ae81ff">4</span>] <span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span> fecha[<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">7</span>])
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        np<span style="color:#f92672">.</span>savetxt(folder_write <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;seq&#39;</span> <span style="color:#f92672">+</span> str(j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span> fecha[:<span style="color:#ae81ff">4</span>] <span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span> fecha[<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">7</span>]<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span>fecha<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;_predict.csv&#39;</span>, prediction, delimiter<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;,&#34;</span>)
+</span></span><span style="display:flex;"><span>        np<span style="color:#f92672">.</span>savetxt(folder_write <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;seq&#39;</span> <span style="color:#f92672">+</span> str(j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span> fecha[:<span style="color:#ae81ff">4</span>] <span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span> fecha[<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">7</span>]<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span>fecha<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;_truth.csv&#39;</span>, ground_truth, delimiter<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;,&#34;</span>)
+</span></span></code></pre></div><p>Como se puede notar en la siguiente imagen los resultados se almacenan por secuencias &lsquo;seqX&rsquo; como previamente lo mencionamos el modelo toma secuencias de siete días para predecir los siguientes siete días por esa razón esa estructura de carpetas.</p>
+<p><img src="https://drive.google.com//uc?id=1WPzGD-IoCds59mWbJ7MjM8LWWVYMW1Wf" alt=""></p>
+<h4 id="calcular-estadísticas-crear-los-mapas-y-añadirlos-a-wb">Calcular estadísticas, crear los mapas y añadirlos a W&amp;B</h4>
+<p>Como parte final de este post es hora de calcular algunas estadísticas para revisar qué porcentaje de las zonas se predijeron de forma correcta, cuáles no, etc. Además haremos el mapa para tener una mejor visualización de las predicciones con los datos verdaderos. Por último vamos a añadir estos componentes en el panel de W&amp;B para que se vea más bonito.</p>
+<p>Importamos las bibliotecas y algunas funciones a usar.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> folium
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> collections <span style="color:#f92672">import</span> Counter
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> re
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_geojson_grid</span>(upper_left, lower_right, n):
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    all_boxes <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    lat_steps <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(lower_right[<span style="color:#ae81ff">0</span>], upper_left[<span style="color:#ae81ff">0</span>], n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    lon_steps <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(lower_right[<span style="color:#ae81ff">1</span>], upper_left[<span style="color:#ae81ff">1</span>], n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    lat_stride <span style="color:#f92672">=</span> lat_steps[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> lat_steps[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    lon_stride <span style="color:#f92672">=</span> lon_steps[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> lon_steps[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> lat <span style="color:#f92672">in</span> lat_steps[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> lon <span style="color:#f92672">in</span> lon_steps[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Define dimensions of box in grid</span>
+</span></span><span style="display:flex;"><span>            upper_left <span style="color:#f92672">=</span> [lon, lat <span style="color:#f92672">+</span> lat_stride]
+</span></span><span style="display:flex;"><span>            upper_right <span style="color:#f92672">=</span> [lon <span style="color:#f92672">+</span> lon_stride, lat <span style="color:#f92672">+</span> lat_stride]
+</span></span><span style="display:flex;"><span>            lower_right <span style="color:#f92672">=</span> [lon <span style="color:#f92672">+</span> lon_stride, lat]
+</span></span><span style="display:flex;"><span>            lower_left <span style="color:#f92672">=</span> [lon, lat]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Define json coordinates for polygon</span>
+</span></span><span style="display:flex;"><span>            coordinates <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>                upper_left,
+</span></span><span style="display:flex;"><span>                upper_right,
+</span></span><span style="display:flex;"><span>                lower_right,
+</span></span><span style="display:flex;"><span>                lower_left,
+</span></span><span style="display:flex;"><span>                upper_left
+</span></span><span style="display:flex;"><span>            ]
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            geo_json <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;FeatureCollection&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;properties&#34;</span>:{
+</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#34;lower_right&#34;</span>: lower_left,
+</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#34;upper_left&#34;</span>: upper_right
+</span></span><span style="display:flex;"><span>                        },
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;features&#34;</span>:[]}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            grid_feature <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;type&#34;</span>:<span style="color:#e6db74">&#34;Feature&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;geometry&#34;</span>:{
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;type&#34;</span>:<span style="color:#e6db74">&#34;Polygon&#34;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;coordinates&#34;</span>: [coordinates],
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            geo_json[<span style="color:#e6db74">&#34;features&#34;</span>]<span style="color:#f92672">.</span>append(grid_feature)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            all_boxes<span style="color:#f92672">.</span>append(geo_json)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> all_boxes
+</span></span></code></pre></div><p>Función para crear el mapa con la clasificación por zona.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_statistics_map</span>(lista, map_name):
+</span></span><span style="display:flex;"><span>    m <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>Map(zoom_start <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, location<span style="color:#f92672">=</span>[<span style="color:#ae81ff">19.406534</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">99.1401587</span>])
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    m<span style="color:#f92672">.</span>choropleth(
+</span></span><span style="display:flex;"><span>     geo_data<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;./data/cdmx.json&#39;</span>,
+</span></span><span style="display:flex;"><span>     name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;choropleth&#39;</span>,
+</span></span><span style="display:flex;"><span>     fill_color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;BuPu&#39;</span>,
+</span></span><span style="display:flex;"><span>     fill_opacity<span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span>,
+</span></span><span style="display:flex;"><span>     line_opacity<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    upper_left  <span style="color:#f92672">=</span> [<span style="color:#ae81ff">19.054224</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">98.9182967</span>]
+</span></span><span style="display:flex;"><span>    lower_right <span style="color:#f92672">=</span> [<span style="color:#ae81ff">19.603937</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">99.3829217</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    grid <span style="color:#f92672">=</span> get_geojson_grid(upper_left, lower_right , n<span style="color:#f92672">=</span><span style="color:#ae81ff">36</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    popups <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    regional_counts <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    content <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, box <span style="color:#f92672">in</span> enumerate(grid):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        upper_left  <span style="color:#f92672">=</span> box[<span style="color:#e6db74">&#34;properties&#34;</span>][<span style="color:#e6db74">&#34;upper_left&#34;</span>]
+</span></span><span style="display:flex;"><span>        lower_right <span style="color:#f92672">=</span> box[<span style="color:#e6db74">&#34;properties&#34;</span>][<span style="color:#e6db74">&#34;lower_right&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        region_incidents <span style="color:#f92672">=</span> lista[i]
+</span></span><span style="display:flex;"><span>        regional_counts<span style="color:#f92672">.</span>append(region_incidents)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        total_vehicles   <span style="color:#f92672">=</span> lista[i]
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> total_vehicles <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Correct&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> total_vehicles <span style="color:#f92672">==</span> <span style="color:#ae81ff">0.89</span>:
+</span></span><span style="display:flex;"><span>            content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;False positive with neighboring burglary&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> total_vehicles <span style="color:#f92672">==</span> <span style="color:#ae81ff">0.6</span>:
+</span></span><span style="display:flex;"><span>            content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;False negative with neighboring positive cell&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> total_vehicles <span style="color:#f92672">==</span> <span style="color:#ae81ff">0.4</span>:
+</span></span><span style="display:flex;"><span>            content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;False negative&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> total_vehicles <span style="color:#f92672">==</span> <span style="color:#ae81ff">0.14</span>:
+</span></span><span style="display:flex;"><span>            content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;False positive&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> total_vehicles <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>            content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Neutral&#34;</span>
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        popup <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>Popup(content)
+</span></span><span style="display:flex;"><span>        popups<span style="color:#f92672">.</span>append(popup)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    worst_region <span style="color:#f92672">=</span> max(lista)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, box <span style="color:#f92672">in</span> enumerate(grid):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> lista[i] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>            geo_json <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps(box)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            color <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>cm<span style="color:#f92672">.</span>gist_ncar(lista[i] <span style="color:#f92672">/</span> worst_region)
+</span></span><span style="display:flex;"><span>            color <span style="color:#f92672">=</span> mpl<span style="color:#f92672">.</span>colors<span style="color:#f92672">.</span>to_hex(color)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            gj <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>GeoJson(geo_json,
+</span></span><span style="display:flex;"><span>                                style_function<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> feature, color<span style="color:#f92672">=</span>color: {
+</span></span><span style="display:flex;"><span>                                                <span style="color:#e6db74">&#39;fillColor&#39;</span>: color,
+</span></span><span style="display:flex;"><span>                                                <span style="color:#e6db74">&#39;color&#39;</span>:<span style="color:#e6db74">&#34;black&#34;</span>,
+</span></span><span style="display:flex;"><span>                                                <span style="color:#e6db74">&#39;weight&#39;</span>: <span style="color:#ae81ff">0.3</span>,
+</span></span><span style="display:flex;"><span>                                                <span style="color:#e6db74">&#39;fillOpacity&#39;</span>: <span style="color:#ae81ff">0.75</span>,
+</span></span><span style="display:flex;"><span>                                                                            })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            gj<span style="color:#f92672">.</span>add_child(popups[i])
+</span></span><span style="display:flex;"><span>            m<span style="color:#f92672">.</span>add_child(gj)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> str(m<span style="color:#f92672">.</span>get_root()<span style="color:#f92672">.</span>render())
+</span></span></code></pre></div><p>Función para pintar las zonas con los delitos así como las zonas predecidas con mayor riesgo de crimen. Similar a la función anterior con algunas modificaciones.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_map</span>(lista, map_name, isprediction):
+</span></span><span style="display:flex;"><span>    m <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>Map(zoom_start <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, location<span style="color:#f92672">=</span>[<span style="color:#ae81ff">19.406534</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">99.1401587</span>])
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    m<span style="color:#f92672">.</span>choropleth(
+</span></span><span style="display:flex;"><span>     geo_data<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;./data/cdmx.json&#39;</span>,
+</span></span><span style="display:flex;"><span>     name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;choropleth&#39;</span>,
+</span></span><span style="display:flex;"><span>     fill_color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;BuPu&#39;</span>,
+</span></span><span style="display:flex;"><span>     fill_opacity<span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span>,
+</span></span><span style="display:flex;"><span>     line_opacity<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    upper_left  <span style="color:#f92672">=</span> [<span style="color:#ae81ff">19.054224</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">98.9182967</span>]
+</span></span><span style="display:flex;"><span>    lower_right <span style="color:#f92672">=</span> [<span style="color:#ae81ff">19.603937</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">99.3829217</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    grid <span style="color:#f92672">=</span> get_geojson_grid(upper_left, lower_right , n<span style="color:#f92672">=</span><span style="color:#ae81ff">36</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    popups <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    regional_counts <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, box <span style="color:#f92672">in</span> enumerate(grid):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        upper_left  <span style="color:#f92672">=</span> box[<span style="color:#e6db74">&#34;properties&#34;</span>][<span style="color:#e6db74">&#34;upper_left&#34;</span>]
+</span></span><span style="display:flex;"><span>        lower_right <span style="color:#f92672">=</span> box[<span style="color:#e6db74">&#34;properties&#34;</span>][<span style="color:#e6db74">&#34;lower_right&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        region_incidents <span style="color:#f92672">=</span> lista[i]
+</span></span><span style="display:flex;"><span>        regional_counts<span style="color:#f92672">.</span>append(region_incidents)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        total_vehicles   <span style="color:#f92672">=</span> lista[i]
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isprediction <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>            content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Probabilidad de robo: </span><span style="color:#e6db74">{:.2f}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(total_vehicles)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Numero de robos: </span><span style="color:#e6db74">{:,.0f}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(total_vehicles)
+</span></span><span style="display:flex;"><span>        popup <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>Popup(content)
+</span></span><span style="display:flex;"><span>        popups<span style="color:#f92672">.</span>append(popup)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    worst_region <span style="color:#f92672">=</span> max(lista)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, box <span style="color:#f92672">in</span> enumerate(grid):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> lista[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            geo_json <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps(box)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            color <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>cm<span style="color:#f92672">.</span>Reds(lista[i] <span style="color:#f92672">/</span> worst_region)
+</span></span><span style="display:flex;"><span>            color <span style="color:#f92672">=</span> mpl<span style="color:#f92672">.</span>colors<span style="color:#f92672">.</span>to_hex(color)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            gj <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>GeoJson(geo_json,
+</span></span><span style="display:flex;"><span>                                style_function<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> feature, color<span style="color:#f92672">=</span>color: {
+</span></span><span style="display:flex;"><span>                                                <span style="color:#e6db74">&#39;fillColor&#39;</span>: color,
+</span></span><span style="display:flex;"><span>                                                <span style="color:#e6db74">&#39;color&#39;</span>:<span style="color:#e6db74">&#34;black&#34;</span>,
+</span></span><span style="display:flex;"><span>                                                <span style="color:#e6db74">&#39;weight&#39;</span>: <span style="color:#ae81ff">0.3</span>,
+</span></span><span style="display:flex;"><span>                                                <span style="color:#e6db74">&#39;fillOpacity&#39;</span>: <span style="color:#ae81ff">0.75</span>,
+</span></span><span style="display:flex;"><span>                                                                            })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            gj<span style="color:#f92672">.</span>add_child(popups[i])
+</span></span><span style="display:flex;"><span>            m<span style="color:#f92672">.</span>add_child(gj)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> str(m<span style="color:#f92672">.</span>get_root()<span style="color:#f92672">.</span>render())
+</span></span></code></pre></div><p>Funciones que nos ayudan con las fechas.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_date</span>(file_path):
+</span></span><span style="display:flex;"><span>    temp    <span style="color:#f92672">=</span> file_path<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;/&#39;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;_&#39;</span>)
+</span></span><span style="display:flex;"><span>    subpath <span style="color:#f92672">=</span> file_path<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;/&#39;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> temp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_&#39;</span> <span style="color:#f92672">+</span> temp[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_&#39;</span> <span style="color:#f92672">+</span> temp[<span style="color:#ae81ff">2</span>], <span style="color:#e6db74">&#39;/&#39;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">.</span>join(subpath[<span style="color:#ae81ff">10</span>:<span style="color:#ae81ff">13</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_fecha</span>(ruta_completa):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ruta_completa<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;/&#39;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;.&#39;</span>)[<span style="color:#ae81ff">0</span>]
+</span></span></code></pre></div><p>Función que nos ayuda a categorizar la zona dependiente de la prediccion y el evento real. Cada una de las casillas se clasificará como sigue:</p>
+<h6 id="1-correct-predictions">1. Correct predictions</h6>
+<blockquote>
+<ul>
+<li><strong>Neutral</strong> - if the cell was classified as ordinary risk and no incident occurred
+it is counted as a neutral cell.</li>
+<li><strong>Correct</strong> - if the cell was classified as an elevated risk cell and a burglary
+occurred in the cell, it is counted as a correct prediction.</li>
+</ul>
+</blockquote>
+<h6 id="2-lesser-errors">2. Lesser errors</h6>
+<blockquote>
+<ul>
+<li><strong>False positive with neighboring burglary</strong> - this class is assigned to a cell if
+it was classified as an elevated risk cell and no burglary occurred in the cell,
+but there was a burglary in a neighboring cell.</li>
+<li><strong>False negative with neighboring positive cell</strong> - this class is assigned to a
+cell if it was classified as a cell with ordinary risk but a burglary occurred in
+this cell and a neighboring cell was classified as an elevated risk cell.</li>
+</ul>
+</blockquote>
+<h6 id="3-severe-errors">3. Severe errors</h6>
+<blockquote>
+<ul>
+<li><strong>False positive</strong> - if the cell was classified as an elevated risk cell and no inci-
+dents occurred in the cell or its neighbors it is classified as a false positive.</li>
+<li><strong>False negative</strong> - if the cell was classified as an ordinary risk cell and the cell
+was subject to a burglary and no neighboring cells were classified as cells
+with an elevated risk the cell is classified as a false negative.</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">allowed_frames</span>(list_t_truth, j,i):
+</span></span><span style="display:flex;"><span>    list_return <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> j <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> j <span style="color:#f92672">!=</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">!=</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i] )
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">==</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i] )
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">==</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">==</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">==</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> j <span style="color:#f92672">&lt;</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">&lt;</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> j <span style="color:#f92672">&lt;</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">==</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">&lt;</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i] ) 
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> j <span style="color:#f92672">==</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">&lt;</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> j <span style="color:#f92672">&lt;</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">==</span> len(list_t_truth)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] )
+</span></span><span style="display:flex;"><span>        list_return<span style="color:#f92672">.</span>append( list_t_truth[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i] ) 
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    valor <span style="color:#f92672">=</span> sum(list_return)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> valor <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(list_t_predi, list_t_truth, name_file):
+</span></span><span style="display:flex;"><span>    inner_l <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(len(list_t_truth)):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(list_t_truth)):
+</span></span><span style="display:flex;"><span>            item_truth  <span style="color:#f92672">=</span> list_t_truth[j][i]
+</span></span><span style="display:flex;"><span>            item_predic <span style="color:#f92672">=</span> list_t_predi[j][i]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">#Correct</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> item_truth <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> item_predic <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                inner_l<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">#False positive with neighboring burglary</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> item_predic <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> item_truth <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> allowed_frames(list_t_truth,j,i) <span style="color:#f92672">==</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>                inner_l<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">0.89</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">#False positive *</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> item_predic <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> item_truth <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> allowed_frames(list_t_truth,j,i) <span style="color:#f92672">==</span> <span style="color:#66d9ef">False</span>:
+</span></span><span style="display:flex;"><span>                inner_l<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">0.14</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">#False negative with neighboring positive cell</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> item_predic <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> item_truth <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> allowed_frames(list_t_predi,j,i) <span style="color:#f92672">==</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>                inner_l<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">0.6</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">#False negative</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> item_predic <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> item_truth <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> allowed_frames(list_t_predi,j,i) <span style="color:#f92672">==</span> <span style="color:#66d9ef">False</span>:
+</span></span><span style="display:flex;"><span>                inner_l<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">0.4</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">#Neutral</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> item_truth <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> item_predic <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                inner_l<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> inner_l, create_statistics_map(inner_l, map_name<span style="color:#f92672">=</span>root_folder_write <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;/&#39;</span> <span style="color:#f92672">+</span> name_file[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span>name_file[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_statistic&#39;</span>)
+</span></span></code></pre></div><p>Marcamos las rutas en donde vamos a leer los datos que el modelo predijo (seqX - archivos .csv) y la ruta en donde si queremos podemos almacenar los mapas.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>root_folder_read  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;./analytics_zone/experiment_results_zone/structure_predictions&#39;</span>
+</span></span><span style="display:flex;"><span>root_folder_write <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;./analytics_zone/experiment_results_zone/maps_predictions&#39;</span>
+</span></span></code></pre></div><p>Traemos todos los archivos.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>directorios <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> subdir, dirs, files <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>walk(root_folder_read):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> files:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;seq&#39;</span> <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(subdir, file):
+</span></span><span style="display:flex;"><span>            directorios<span style="color:#f92672">.</span>append(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(subdir, file))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sort_directorios <span style="color:#f92672">=</span> sorted(directorios)
+</span></span></code></pre></div><p>Recorremos cada archivo y vamos guardando su código html dependiendo si es la predicción o el evento verdadero, así mismo vamos calculando la clasificación de cada una de las casillas.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mapas_html <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>list_truth <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>list_predic <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>list_fechas <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> j, file <span style="color:#f92672">in</span> enumerate(sort_directorios):
+</span></span><span style="display:flex;"><span>    nombre <span style="color:#f92672">=</span> get_fecha(file)
+</span></span><span style="display:flex;"><span>    sequence <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;(/seq).*?(?=/)&#34;</span>, file)<span style="color:#f92672">.</span>group(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/home/caoba/Documentos/proyectos/crimenes/data_prep/DATALAKE/analytics_zone/experiment_results_zone/maps_predictions/&#39;</span> <span style="color:#f92672">+</span> sequence <span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span> <span style="color:#f92672">+</span> nombre[:<span style="color:#ae81ff">4</span>] <span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span> nombre[<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">7</span>]
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;predict.&#39;</span> <span style="color:#f92672">in</span> file:
+</span></span><span style="display:flex;"><span>        list_fechas<span style="color:#f92672">.</span>append(nombre<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;_p&#39;</span>)[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>        prediction_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(file, header<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>        prediction    <span style="color:#f92672">=</span> prediction_df<span style="color:#f92672">.</span>to_numpy()<span style="color:#f92672">.</span>reshape((<span style="color:#ae81ff">1296</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        html_predic <span style="color:#f92672">=</span> create_map(list(prediction), map_name<span style="color:#f92672">=</span>path <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;/&#39;</span> <span style="color:#f92672">+</span>nombre, isprediction<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        list_predic<span style="color:#f92672">.</span>append( wandb<span style="color:#f92672">.</span>Html(html_predic) )
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;truth.&#39;</span> <span style="color:#f92672">in</span> file:
+</span></span><span style="display:flex;"><span>        ground_truth_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(file, header<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>        ground_truth    <span style="color:#f92672">=</span> ground_truth_df<span style="color:#f92672">.</span>to_numpy()<span style="color:#f92672">.</span>reshape((<span style="color:#ae81ff">1296</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        html_truth <span style="color:#f92672">=</span> create_map(list(ground_truth), map_name<span style="color:#f92672">=</span>path<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">+</span>nombre, isprediction<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        list_truth<span style="color:#f92672">.</span>append( wandb<span style="color:#f92672">.</span>Html(html_truth) )
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>list_stats <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>list_files_t <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>list_files_p <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;sequence&#39;</span>,<span style="color:#e6db74">&#39;fecha&#39;</span>,<span style="color:#e6db74">&#39;Correct&#39;</span>,<span style="color:#e6db74">&#39;False positive with neighboring burglary&#39;</span>,<span style="color:#e6db74">&#39;False positive&#39;</span>,<span style="color:#e6db74">&#39;False negative with neighboring positive cell&#39;</span>,<span style="color:#e6db74">&#39;False negative&#39;</span>]
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(columns<span style="color:#f92672">=</span>columns)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> k, file <span style="color:#f92672">in</span> enumerate(sort_directorios):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;predict.&#39;</span> <span style="color:#f92672">in</span> file:
+</span></span><span style="display:flex;"><span>        list_files_p<span style="color:#f92672">.</span>append(file)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;truth.&#39;</span> <span style="color:#f92672">in</span> file:
+</span></span><span style="display:flex;"><span>        list_files_t<span style="color:#f92672">.</span>append(file)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;sequence&#39;</span>,<span style="color:#e6db74">&#39;fecha&#39;</span>,<span style="color:#e6db74">&#39;Correct&#39;</span>,<span style="color:#e6db74">&#39;False positive with neighboring burglary&#39;</span>,<span style="color:#e6db74">&#39;False positive&#39;</span>,<span style="color:#e6db74">&#39;False negative with neighboring positive cell&#39;</span>,<span style="color:#e6db74">&#39;False negative&#39;</span>]
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(columns<span style="color:#f92672">=</span>columns)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> tr, pr <span style="color:#f92672">in</span> zip(list_files_t, list_files_p):
+</span></span><span style="display:flex;"><span>    name_file <span style="color:#f92672">=</span> get_date(tr)
+</span></span><span style="display:flex;"><span>    df_t_predi <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(pr, header<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>    list_t_predi <span style="color:#f92672">=</span> df_t_predi<span style="color:#f92672">.</span>values<span style="color:#f92672">.</span>tolist()
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    df_t_truth <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(tr, header<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>    list_t_truth <span style="color:#f92672">=</span> df_t_truth<span style="color:#f92672">.</span>values<span style="color:#f92672">.</span>tolist()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#print(k, file)</span>
+</span></span><span style="display:flex;"><span>    inner_l, html_stats <span style="color:#f92672">=</span> run(list_t_predi, list_t_truth, name_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mapa&#39;</span>)
+</span></span><span style="display:flex;"><span>    list_stats<span style="color:#f92672">.</span>append( wandb<span style="color:#f92672">.</span>Html(html_stats) )
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    dic <span style="color:#f92672">=</span> Counter(inner_l)
+</span></span><span style="display:flex;"><span>    df<span style="color:#f92672">.</span>loc[k] <span style="color:#f92672">=</span> [name_file[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;/&#39;</span>)[<span style="color:#ae81ff">0</span>], name_file[<span style="color:#ae81ff">0</span>], dic[<span style="color:#ae81ff">0</span>], dic[<span style="color:#ae81ff">0.89</span>], dic[<span style="color:#ae81ff">0.14</span>], dic[<span style="color:#ae81ff">0.6</span>], dic[<span style="color:#ae81ff">0.4</span>]]
+</span></span></code></pre></div><p>Guardamos todos los hrml en una lista.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> a,b,c,d <span style="color:#f92672">in</span> zip(list_truth, list_predic, list_fechas, list_stats):
+</span></span><span style="display:flex;"><span>    mapas_html<span style="color:#f92672">.</span>append( [c, a, b, d] )
+</span></span></code></pre></div><p>Iniciamos la última sesión de W&amp;B.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wandb<span style="color:#f92672">.</span>init()
+</span></span></code></pre></div><p>Y ahora le mandamos a W&amp;B la lista de los mapas html para que los pinte en el portal en forma de tabla.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>table <span style="color:#f92672">=</span> wandb<span style="color:#f92672">.</span>Table(data<span style="color:#f92672">=</span>mapas_html[:<span style="color:#ae81ff">3</span>], columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;FECHA&#39;</span>, <span style="color:#e6db74">&#39;GROUND TRUTH&#39;</span>, <span style="color:#e6db74">&#39;PREDICTIONS&#39;</span>, <span style="color:#e6db74">&#39;CATEGORIZATION&#39;</span>])
+</span></span><span style="display:flex;"><span>wandb<span style="color:#f92672">.</span>log({<span style="color:#e6db74">&#34;asalto_transeunte&#34;</span>: table})
+</span></span></code></pre></div><p>Así mismo vamos a pintar un barchar con el porcentaje de cada una de las categorias.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df<span style="color:#f92672">.</span>drop_duplicates(subset<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;sequence&#39;</span>,<span style="color:#e6db74">&#39;fecha&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sizes <span style="color:#f92672">=</span> [np<span style="color:#f92672">.</span>mean(df[<span style="color:#e6db74">&#39;Correct&#39;</span>]),
+</span></span><span style="display:flex;"><span>         np<span style="color:#f92672">.</span>mean(df[<span style="color:#e6db74">&#39;False positive with neighboring burglary&#39;</span>]), 
+</span></span><span style="display:flex;"><span>         np<span style="color:#f92672">.</span>mean(df[<span style="color:#e6db74">&#39;False positive&#39;</span>]), 
+</span></span><span style="display:flex;"><span>         np<span style="color:#f92672">.</span>mean(df[<span style="color:#e6db74">&#39;False negative with neighboring positive cell&#39;</span>]), 
+</span></span><span style="display:flex;"><span>         np<span style="color:#f92672">.</span>mean(df[<span style="color:#e6db74">&#39;False negative&#39;</span>])]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sizes <span style="color:#f92672">=</span> [v<span style="color:#f92672">/</span><span style="color:#ae81ff">100</span> <span style="color:#66d9ef">for</span> v <span style="color:#f92672">in</span> sizes]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>labels <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;Correct&#39;</span>,<span style="color:#e6db74">&#39;False positive with neighboring burglary&#39;</span>,<span style="color:#e6db74">&#39;False positive&#39;</span>,<span style="color:#e6db74">&#39;False negative with neighboring positive cell&#39;</span>,<span style="color:#e6db74">&#39;False negative&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> [[label, val] <span style="color:#66d9ef">for</span> (label, val) <span style="color:#f92672">in</span> zip(labels, sizes)]
+</span></span><span style="display:flex;"><span>tableVal <span style="color:#f92672">=</span> wandb<span style="color:#f92672">.</span>Table(data<span style="color:#f92672">=</span>data, columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;label&#34;</span>, <span style="color:#e6db74">&#34;percentage per label&#34;</span>])
+</span></span><span style="display:flex;"><span>wandb<span style="color:#f92672">.</span>log({<span style="color:#e6db74">&#34;Statistics&#34;</span> : wandb<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>bar(tableVal, <span style="color:#e6db74">&#34;label&#34;</span>,<span style="color:#e6db74">&#34;percentage per label&#34;</span>, title<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Categorization chart&#34;</span>)})
+</span></span></code></pre></div><p>Así es como W&amp;B pinta nuestros mapas, sólo visualizamos tres para no saturar la pantalla.</p>
+<p><img src="https://drive.google.com//uc?id=1YAS3XV7xV8Yn3Ek3EbO77NO4O-v9e9lr" alt="">
+<img src="https://drive.google.com//uc?id=1mZkBfWM6A4aIzOxH4HJJwjgh3GfsgZ6Q" alt="">
+<img src="https://drive.google.com//uc?id=1-9c9h3PA4nLXD1S65AMUgnSCBFpC3jQm" alt=""></p>
+<p>Y para finalizar nuestro bar char.</p>
+<p><img src="https://drive.google.com//uc?id=1FON48djifwYA0f9r_UPq686a_-hOHzy6" alt=""></p>
+<p>De forma más clara los mapas se visualizan así:</p>
+<blockquote>
+<p>Mapa con las zonas en donde se registraron asaltos a transeuntes el día 10 de Dic del 2021:</p>
+</blockquote>
+<p><img src="https://drive.google.com//uc?id=1odq2yxIZzJL6ACzmx1_g-BjJkKFCwmJC" alt=""></p>
+<blockquote>
+<p>Mapa con las zonas predecidas por el modelo en las cuales tenemos un riesgo alto de robo a transeuntes.</p>
+</blockquote>
+<p><img src="https://drive.google.com//uc?id=1ZVlqR4I2bxbxtq24xpZyhUtP9CY0KLCc" alt=""></p>
+<blockquote>
+<p>Y por último tenemos el mapa con la clasificación de cada una de las casillas involucradas.</p>
+</blockquote>
+<p><img src="https://drive.google.com//uc?id=1L6A-6uuvvdj38R7Sis_RnTJCOokTp65f" alt=""></p>
+<p>Y basicamente la clasificación se detalla como sigue:</p>
+<blockquote>
+<p>Azul marino para las casillas en las cuales sucedió un delito y el modelo predijo un alto riesgo de delito.</p>
+</blockquote>
+<p><img src="https://drive.google.com//uc?id=1vycfqEqSG_TBk2rjXBFr-NEo4yOnRFQK" alt=""></p>
+<blockquote>
+<p>Rosita para las casillas en las cuales el modelo predice un alto riesgo de delito y no se contó con ningún delito ese día, pero esa casilla es vecina de una casilla en donde si ocurre un delito.</p>
+</blockquote>
+<p><img src="https://drive.google.com//uc?id=1SGPwnZRtdeU8bJfjsLHxbHKfKiKDr9VO" alt=""></p>
+<blockquote>
+<p>Amarillo para las zonas en las cuales si se registro un delito pero el modelo no predijo un riesgo alto de evento, pero la casilla del evento real es vecina de una casilla marcada con riesgo alto por parte del modelo.</p>
+</blockquote>
+<p><img src="https://drive.google.com//uc?id=1TtilC41cEbal-oGTzz1aEF1bkiMjYAdX" alt=""></p>
+<blockquote>
+<p>Azul más claro para las casillas en las cuales el modelo predice un riesgo alto de delito y no pasó nada ese día, además de que no es vecina de ninguna zona en la cual ocurrió un delito.</p>
+</blockquote>
+<p><img src="https://drive.google.com//uc?id=1v9V9rihB4WoFvbb4aava1JyltqjC0QHx" alt=""></p>
+<blockquote>
+<p>Verde para las casillas en las cuales el modelo no predice un riesgo alto de robo y que no estuvo cerca (alguna casilla vecina) de predecirlo, sin embargo si hubo delito ese día en la casilla.</p>
+</blockquote>
+<p><img src="https://drive.google.com//uc?id=1AzGvUQX_kQIpl7I6sYQ8KCXuBf348fta" alt=""></p>
+<p>Como palabras finales puedo decir que la etapa de experimentación es un proceso largo y tedioso pero que nos puede servir de mucho dándonos una visión de cómo se comporta el modelo con ciertos hiperparametros, eligiendo al final los valores con los que es mejor el desempeño del modelo, así mismo la parte visual es de vital importancia en todo pasó de la construcción de nuestro producto de datos, W&amp;B nos ayuda en los procesos anteriores agilizando la búsqueda de los mejores hiperparametros, graficando cada paso del entrenamiento, así como con la publicación de un dashboard en donde pudimos colocar diferentes componentes como gráficas, mapas html e imágenes para una mejor interpretación de los resultados y sobre todo también se puede compartir con otros miembros del equipo y discutir los resultados obtenidos y en dado caso mejorar si es posible el modelo.</p>
+<p>Espero que este post les haya sido de ayuda. Sin más me despido y seguimos en la siguiente parte del proyecto, Saludos.</p>
+<h5 id="referencias">Referencias</h5>
+<ul>
+<li><a href="https://wandb.ai/site">https://wandb.ai/site</a></li>
+<li><a href="https://docs.wandb.ai/guides/track/log/plots">https://docs.wandb.ai/guides/track/log/plots</a></li>
+<li><a href="https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA">https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA</a></li>
+<li><a href="https://python-visualization.github.io/folium/">https://python-visualization.github.io/folium/</a></li>
+</ul>
+
+                    </div>
+                    
+                    
+                    <div class="after-post-tags">
+                        <ul class="tags">
+                        
+                        <li>
+                        <a href="/tags/redes-neuronales">redes neuronales</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/red-neuronal-recurrente">red neuronal recurrente</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/python">python</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/tensorflow">tensorflow</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/keras">keras</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/mnist">MNIST</a>
+                        </li>
+                        
+                        </ul>
+                    </div>
+                    
+                    
+                    
+                    <div class="row PageNavigation d-flex justify-content-between font-weight-bold">
+                    
+                    
+                        <a class="d-block col-md-6 text-lg-right" href="https://caoba1623.github.io/blog/wandb/wandb/">Weights &amp; Biases con Keras &raquo;</a>
+                    
+                    <div class="clearfix"></div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+
+
+            </div>
+<div class="jumbotron fortags">
+	<div class="d-md-flex h-100">
+		<div class="col-md-4 transpdark align-self-center text-center h-100">
+			<div class="d-md-flex align-items-center justify-content-center h-100">
+				<h2 class="d-md-block d-none align-self-center py-1 font-weight-light">Explore <span class="d-none d-md-inline">→</span></h2>
+			</div>
+		</div>
+		<div class="col-md-8 p-5 align-self-center text-center">
+			
+			<a class="mt-1 mb-1" href="/tags/analisis">analisis</a>
+			
+			<a class="mt-1 mb-1" href="/tags/cdmx">cdmx</a>
+			
+			<a class="mt-1 mb-1" href="/tags/cnn">cnn</a>
+			
+			<a class="mt-1 mb-1" href="/tags/convolucion">convolucion</a>
+			
+			<a class="mt-1 mb-1" href="/tags/crimen">crimen</a>
+			
+			<a class="mt-1 mb-1" href="/tags/delitos">delitos</a>
+			
+			<a class="mt-1 mb-1" href="/tags/exploracion">exploracion</a>
+			
+			<a class="mt-1 mb-1" href="/tags/fake-news">fake news</a>
+			
+			<a class="mt-1 mb-1" href="/tags/hyperparameter-optimization">hyperparameter optimization</a>
+			
+			<a class="mt-1 mb-1" href="/tags/interesting">interesting</a>
+			
+			<a class="mt-1 mb-1" href="/tags/keras">keras</a>
+			
+			<a class="mt-1 mb-1" href="/tags/machine-learning">machine learning</a>
+			
+			<a class="mt-1 mb-1" href="/tags/mnist">mnist</a>
+			
+			<a class="mt-1 mb-1" href="/tags/n-gram">n-gram</a>
+			
+			<a class="mt-1 mb-1" href="/tags/natural-languaje-processing">natural languaje processing</a>
+			
+			<a class="mt-1 mb-1" href="/tags/nlp">nlp</a>
+			
+			<a class="mt-1 mb-1" href="/tags/pyspark">pyspark</a>
+			
+			<a class="mt-1 mb-1" href="/tags/python">python</a>
+			
+			<a class="mt-1 mb-1" href="/tags/red-neuronal-recurrente">red neuronal recurrente</a>
+			
+			<a class="mt-1 mb-1" href="/tags/redes-neuronales">redes neuronales</a>
+			
+			<a class="mt-1 mb-1" href="/tags/retail">retail</a>
+			
+			<a class="mt-1 mb-1" href="/tags/scipy">scipy</a>
+			
+			<a class="mt-1 mb-1" href="/tags/series-de-tiempo">series de tiempo</a>
+			
+			<a class="mt-1 mb-1" href="/tags/sklearn">sklearn</a>
+			
+			<a class="mt-1 mb-1" href="/tags/tensorflow">tensorflow</a>
+			
+			<a class="mt-1 mb-1" href="/tags/tf-idf">tf-idf</a>
+			
+			<a class="mt-1 mb-1" href="/tags/timeseries">timeseries</a>
+			
+			<a class="mt-1 mb-1" href="/tags/weights-biases">weights &amp; biases</a>
+			
+		</div>
+	</div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 text-center text-lg-left">
+                &copy; Copyright Alberto Ortiz - All rights reserved
+            </div>
+            <div class="col-md-6 col-sm-6 text-center text-lg-right">    
+                <a target="_blank" rel="noopener" href="https://www.wowthemes.net">Mediumish Theme</a> by WowThemes.net
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+        </div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<script src="https://caoba1623.github.io/js/mediumish.84218587c174fd40bce82544b98851670f0b124a7324b349c54a4065e2b32ffc.js" integrity="sha256-hCGFh8F0/UC86CVEuYhRZw8LEkpzJLNJxUpAZeKzL/w="></script>
+    </body>
+</html>

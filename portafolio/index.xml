@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Portafolios on Alberto Ortiz</title>
+    <link>https://caoba1623.github.io/portafolio/</link>
+    <description>Recent content in Portafolios on Alberto Ortiz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Alberto Ortiz - All rights reserved</copyright>
+    <lastBuildDate>Sun, 07 Oct 2018 11:40:11 +0200</lastBuildDate>
+    <atom:link href="https://caoba1623.github.io/portafolio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Eighth</title>
+      <link>https://caoba1623.github.io/portafolio/eighth/</link>
+      <pubDate>Sun, 07 Oct 2018 11:40:11 +0200</pubDate>
+      <guid>https://caoba1623.github.io/portafolio/eighth/</guid>
+      <description>This is another post Ahora en este post vamos a ver la segunda red neuronal llamada Red Neuronal Convolucional (Convolutional Neural Network), si no has leído el post en que hablo del perceptron multicapa te dejo el link.</description>
+    </item>
+  </channel>
+</rss>

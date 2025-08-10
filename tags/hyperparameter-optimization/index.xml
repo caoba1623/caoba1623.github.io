@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hyperparameter Optimization on Alberto Ortiz</title>
+    <link>https://caoba1623.github.io/tags/hyperparameter-optimization/</link>
+    <description>Recent content in Hyperparameter Optimization on Alberto Ortiz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Alberto Ortiz - All rights reserved</copyright>
+    <lastBuildDate>Sun, 16 Jan 2022 11:40:11 +0200</lastBuildDate>
+    <atom:link href="https://caoba1623.github.io/tags/hyperparameter-optimization/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Weights &amp; Biases con Keras</title>
+      <link>https://caoba1623.github.io/blog/wandb/wandb/</link>
+      <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
+      <guid>https://caoba1623.github.io/blog/wandb/wandb/</guid>
+      <description>En ocasiones los científicos de datos tienden a realizar los modelos de manera artesanal limitándose a realizar un par de ejecuciones con diferentes hiperparámetros y eligiendo el modelo que mejor desempeño tuvo en la etapa de entrenamiento y validación dependiendo de la métrica (accuracy, precision, recall, F1-score, ROC, AUC, etc.</description>
+    </item>
+  </channel>
+</rss>

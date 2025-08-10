@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Keras on Alberto Ortiz</title>
+    <link>https://caoba1623.github.io/tags/keras/</link>
+    <description>Recent content in Keras on Alberto Ortiz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Alberto Ortiz - All rights reserved</copyright>
+    <lastBuildDate>Fri, 21 Jan 2022 11:40:11 +0200</lastBuildDate>
+    <atom:link href="https://caoba1623.github.io/tags/keras/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[3] Optimización de hiper parámetros y monitoreo del modelo</title>
+      <link>https://caoba1623.github.io/blog/robos_transeunte/robos_transeunte/</link>
+      <pubDate>Fri, 21 Jan 2022 11:40:11 +0200</pubDate>
+      <guid>https://caoba1623.github.io/blog/robos_transeunte/robos_transeunte/</guid>
+      <description>En ocasiones los científicos de datos tienden a realizar los modelos de manera artesanal limitándose a realizar un par de ejecuciones con diferentes hiper parámetros y eligiendo el modelo que mejor desempeño tuvo en la etapa de entrenamiento y validación dependiendo de la métrica (accuracy, precision, recall, F1-score, ROC, AUC, etc.</description>
+    </item>
+    <item>
+      <title>Weights &amp; Biases con Keras</title>
+      <link>https://caoba1623.github.io/blog/wandb/wandb/</link>
+      <pubDate>Sun, 16 Jan 2022 11:40:11 +0200</pubDate>
+      <guid>https://caoba1623.github.io/blog/wandb/wandb/</guid>
+      <description>En ocasiones los científicos de datos tienden a realizar los modelos de manera artesanal limitándose a realizar un par de ejecuciones con diferentes hiperparámetros y eligiendo el modelo que mejor desempeño tuvo en la etapa de entrenamiento y validación dependiendo de la métrica (accuracy, precision, recall, F1-score, ROC, AUC, etc.</description>
+    </item>
+    <item>
+      <title>Red Neuronal Recurrente - RNN</title>
+      <link>https://caoba1623.github.io/blog/rnn/rnn/</link>
+      <pubDate>Sun, 01 Nov 2020 11:40:11 +0200</pubDate>
+      <guid>https://caoba1623.github.io/blog/rnn/rnn/</guid>
+      <description>Como parte de ésta secuencia de redes neuronales en este post mostrare la red neuronal recurrente (recurrent neural network) o de forma simplificada RNN, si no has leído los post de las dos primeras arquitecturas anexo el link del red neuronal convolucional y el link del perceptron multicapa.</description>
+    </item>
+    <item>
+      <title>Red Neuronal Convolucional - CNN</title>
+      <link>https://caoba1623.github.io/blog/cnn/cnn/</link>
+      <pubDate>Mon, 21 Sep 2020 16:26:30 -0600</pubDate>
+      <guid>https://caoba1623.github.io/blog/cnn/cnn/</guid>
+      <description>Ahora en este post vamos a ver la segunda red neuronal llamada Red Neuronal Convolucional (Convolutional Neural Network), si no has leído el post en que hablo del perceptron multicapa te dejo el link.</description>
+    </item>
+    <item>
+      <title>Perceptrón multicapa</title>
+      <link>https://caoba1623.github.io/blog/perceptron-multicapa/perceptron-multicapa/</link>
+      <pubDate>Tue, 25 Aug 2020 11:40:11 +0200</pubDate>
+      <guid>https://caoba1623.github.io/blog/perceptron-multicapa/perceptron-multicapa/</guid>
+      <description>Las redes neuronales artificiales no son una idea nueva en nuestros tiempos, de hecho existen alrededor de los sesentas, con la investigación de Frank Rosenblatt al crear el perceptrón, pero no es hasta el 2011 que empiezan a emerger como una forma de reconocer patrones, y lo que las hace resurgir es el desarrollo tecnológico, abriendo la posibilidad de implementarlas para su uso en la investigación y en la resolución de problemas.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="generator" content="Hugo 0.123.7">
+	
+	<link rel="icon" href="/images/logo.png">
+	
+	<title>Portafolio | Alberto Ortiz</title>
+	
+	
+
+	<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Weights &amp; Biases con Keras"/>
+<meta name="twitter:description" content="En ocasiones los científicos de datos tienden a realizar los modelos de manera artesanal limitándose a realizar un par de ejecuciones con diferentes hiperparámetros y eligiendo el modelo que mejor desempeño tuvo en la etapa de entrenamiento y validación dependiendo de la métrica (accuracy, precision, recall, F1-score, ROC, AUC, etc."/>
+
+	<meta property="og:title" content="Weights &amp; Biases con Keras" />
+<meta property="og:description" content="En ocasiones los científicos de datos tienden a realizar los modelos de manera artesanal limitándose a realizar un par de ejecuciones con diferentes hiperparámetros y eligiendo el modelo que mejor desempeño tuvo en la etapa de entrenamiento y validación dependiendo de la métrica (accuracy, precision, recall, F1-score, ROC, AUC, etc." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://caoba1623.github.io/blog/wandb/wandb/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2022-01-16T11:40:11+02:00" />
+<meta property="article:modified_time" content="2022-01-16T11:40:11+02:00" />
+
+
+
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+
+	
+	<link rel="stylesheet" href="https://caoba1623.github.io/css/medium.6971b630a000d0cbb4d82c9a9ec50c3a9065960184ea012350c9d0f97b825f8b.css" integrity="sha256-aXG2MKAA0Mu02CyansUMOpBllgGE6gEjUMnQ&#43;XuCX4s=">
+
+	
+	<link rel="stylesheet" href="https://caoba1623.github.io/css/additional.8819b6defcdc6d21280f9b402b00df87ca779135901de6c22e708c62e20184b9.css" integrity="sha256-iBm23vzcbSEoD5tAKwDfh8p3kTWQHebCLnCMYuIBhLk=">
+
+	
+	
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+    <div class="container pr-0">
+        
+        <a class="navbar-brand" href="https://caoba1623.github.io//">
+
+            
+            <img src="/images/logo.png" alt="logo">
+            
+        </a>
+        
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        
+        <div class="collapse navbar-collapse" id="navbarMediumish">
+            
+            <ul class="navbar-nav ml-auto">
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/blog">Blog</a>
+                </li>
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/">About Me</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</nav>
+
+
+        <div class="site-content">   
+            <div class="container">
+    
+    <div class="main-content">
+        
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-md-2 pl-0"><div class="share sticky-top sticky-top-offset">
+    
+
+    
+</div>
+</div>
+                                
+                <div class="col-md-9 flex-first flex-md-unordered">
+                    <div class="mainheading">
+                        	
+                        
+                        
+                        
+                        <div class="row post-top-meta">
+                            <div class="col-xs-12 col-md-3 col-lg-2 text-center text-md-left mb-4 mb-md-0 md-nopad-right">
+                                <img class="author-thumb" src="/images/author.jpeg" alt="Alberto Ortiz">
+                            </div>
+                            <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left md-nopad-left">
+                                <a target="_blank" class="link-dark">Alberto Ortiz</a><br>
+                                <span class="author-description">
+                                    Data Engineer<br>
+                                    <i class="far fa-star"></i>
+                                    Jan 16, 2022
+                                    <i class="far fa-clock clock"></i>
+                                    6 min read
+                                </span>					
+                            </div>
+                        </div>			
+                        	
+                        
+                                                
+                        
+                        <h1 class="posttitle">Weights &amp; Biases con Keras</h1> 
+                    </div>
+                    <img class="featured-image img-fluid" src="/images/blog/blog12.jpg" alt="thumbnail for this post">
+                    
+
+                    
+                    <div class="article-post">
+                        <p>En ocasiones los científicos de datos tienden a realizar los modelos de manera artesanal limitándose a realizar un par de ejecuciones con diferentes hiperparámetros y eligiendo el modelo que mejor desempeño tuvo en la etapa de entrenamiento y validación dependiendo de la métrica (accuracy, precision, recall, F1-score, ROC, AUC, etc.) y del problema que están resolviendo (Classification, Regression, etc.), a este proceso le llamamos “experiment tracking”. Lo antes mencionado resulta bastante tedioso de realizar de forma manual sin contar que conlleva bastante tiempo realizar los ajustes en los modelos y en sus ejecuciones individuales, justamente en esta etapa viene al rescate una herramienta que nos va a ayudar a encontrar los hiperparámetros con los que el modelo tuvo un mejor desempeño además de otras funcionalidad muy útiles que nos van a ayudar a lo largo de la etapa de modelado, sin más misterio les presento a Weights &amp; Biases <a href="https://wandb.ai/site">link</a>.</p>
+<p>Weights &amp; Biases es una servicio que además de ayudarnos con el experiment tracking también nos permite realizar reportes, dashboards, crear y almacenar artefactos así como también con el hyperparameter optimization, entre otras cualidades interesantes. Cabe mencionar que W&amp;B NO es gratuito, para uso empresarial se debe de adquirir un plan mensual de uso, pero lo bonito es que para nuestros proyectos personales lo podemos usar sin problemas siempre y cuando no excedamos el límite de la capa gratuita. Ahora sí, en este post vamos a explorar Weights &amp; Biases usando uno de los modelos de deep learning para clasificar dígitos escritos a mano (MNIST).</p>
+<h3 id="instalación-e-inicialización-del-wb">Instalación e inicialización del W&amp;B</h3>
+<p>Para poder usar W&amp;B debemos de crear una cuenta en su página aquí el <a href="https://wandb.ai/site">link</a> y una vez que creamos la cuenta nos descargamos la biblioteca de python para usarlo.
+La instalación es muy simple si están usando pip lo pueden hacer de la siguiente manera:</p>
+<p><img src="https://drive.google.com//uc?id=1Jfn47breHvE3NHZhTGVeaFKUOtDbn5y0" alt=""></p>
+<p>una vez que esté instalado tenemos que importar la biblioteca y loguearnos.</p>
+<p><img src="https://drive.google.com//uc?id=1wCLGjp6ws1fhUfGgARv-aMjrcNLcsbHu" alt=""></p>
+<p>Si es la primera vez que haces el login te pedirá un token, dicho token lo tienes que obtener desde esta liga <a href="https://wandb.ai/authorize">https://wandb.ai/authorize</a> misma que te pone en el mensaje de login, copias y pegas el token y listo ya puedes usar W&amp;B en tu proyecto.</p>
+<p><img src="https://drive.google.com//uc?id=1UyfeyLALA4K2HG6Y4zol8reuyWzsQI51" alt=""></p>
+<p>Entonces el código quedaría así:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tensorflow.keras.models <span style="color:#f92672">import</span> Sequential
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tensorflow.keras.layers <span style="color:#f92672">import</span> Activation, Dense, Dropout
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tensorflow.keras.layers <span style="color:#f92672">import</span> Conv2D, MaxPooling2D, Flatten
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tensorflow.keras.utils <span style="color:#f92672">import</span> to_categorical, plot_model
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tensorflow.keras <span style="color:#f92672">import</span> Model
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tensorflow.keras.datasets <span style="color:#f92672">import</span> mnist
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tensorflow.keras
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tensorflow <span style="color:#66d9ef">as</span> tf
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tqdm
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">%%</span>capture
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install wandb
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> wandb
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> wandb.keras <span style="color:#f92672">import</span> WandbCallback
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>wandb<span style="color:#f92672">.</span>login()
+</span></span></code></pre></div><p>Ahora descargamos los datos y los preprocesamos</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#cargamos el dataset y lo partimos en entranamiento y prueba</span>
+</span></span><span style="display:flex;"><span>(x_entrenamiento, y_entrenamiento), (x_prueba, y_prueba) <span style="color:#f92672">=</span> mnist<span style="color:#f92672">.</span>load_data()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#calculamos el numero de clases, deben de ser 10</span>
+</span></span><span style="display:flex;"><span>num_clases <span style="color:#f92672">=</span> len(np<span style="color:#f92672">.</span>unique(y_entrenamiento))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#convertimos la variable de las categorias a un vector One Hot</span>
+</span></span><span style="display:flex;"><span>y_entrenamiento <span style="color:#f92672">=</span> to_categorical(y_entrenamiento)
+</span></span><span style="display:flex;"><span>y_prueba <span style="color:#f92672">=</span> to_categorical(y_prueba)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># dimensiones de la imagen de entrada</span>
+</span></span><span style="display:flex;"><span>tamanio_imagen <span style="color:#f92672">=</span> x_entrenamiento<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Hacemos un reescalamiento y normalizamos</span>
+</span></span><span style="display:flex;"><span>x_entrenamiento <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>reshape(x_entrenamiento,[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, tamanio_imagen, tamanio_imagen, <span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>x_prueba <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>reshape(x_prueba,[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, tamanio_imagen, tamanio_imagen, <span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>x_entrenamiento <span style="color:#f92672">=</span> x_entrenamiento<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;float32&#39;</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>
+</span></span><span style="display:flex;"><span>x_prueba <span style="color:#f92672">=</span> x_prueba<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;float32&#39;</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>
+</span></span></code></pre></div><p>Definimos las funciones que nos ayudarán a determinar con cuáles hiperparámetros el modelo minimiza la pérdida.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cnn_model</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#parametros del modelo</span>
+</span></span><span style="display:flex;"><span>    input_shape <span style="color:#f92672">=</span> (tamanio_imagen, tamanio_imagen, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    kernel_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>    pool_size   <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    filters     <span style="color:#f92672">=</span> <span style="color:#ae81ff">64</span>
+</span></span><span style="display:flex;"><span>    dropout     <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    inputs <span style="color:#f92672">=</span> tensorflow<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>Input(shape<span style="color:#f92672">=</span>input_shape, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;digits&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    x1 <span style="color:#f92672">=</span> Conv2D(filters<span style="color:#f92672">=</span>filters,
+</span></span><span style="display:flex;"><span>                kernel_size<span style="color:#f92672">=</span>kernel_size,
+</span></span><span style="display:flex;"><span>                activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>)(inputs)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    x2 <span style="color:#f92672">=</span> MaxPooling2D(pool_size<span style="color:#f92672">=</span>pool_size)(x1)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x3 <span style="color:#f92672">=</span> Conv2D(filters<span style="color:#f92672">=</span>filters,
+</span></span><span style="display:flex;"><span>                kernel_size<span style="color:#f92672">=</span>kernel_size,
+</span></span><span style="display:flex;"><span>                activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>)(x2)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    x4 <span style="color:#f92672">=</span> MaxPooling2D(pool_size<span style="color:#f92672">=</span>pool_size)(x3)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x5 <span style="color:#f92672">=</span> Conv2D(filters<span style="color:#f92672">=</span>filters,
+</span></span><span style="display:flex;"><span>                kernel_size<span style="color:#f92672">=</span>kernel_size,
+</span></span><span style="display:flex;"><span>                activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>)(x4)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x6 <span style="color:#f92672">=</span> Flatten()(x5)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x7 <span style="color:#f92672">=</span> Dropout(dropout)(x6)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x8 <span style="color:#f92672">=</span> Dense(num_clases)(x7)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    outputs <span style="color:#f92672">=</span> Activation(<span style="color:#e6db74">&#39;softmax&#39;</span>)(x8)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Model(inputs<span style="color:#f92672">=</span>inputs, outputs<span style="color:#f92672">=</span>outputs)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train_step</span>(x, y, model, optimizer, loss_fn, train_acc_metric):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>GradientTape() <span style="color:#66d9ef">as</span> tape:
+</span></span><span style="display:flex;"><span>        logits <span style="color:#f92672">=</span> model(x, training<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        loss_value <span style="color:#f92672">=</span> loss_fn(y, logits)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    grads <span style="color:#f92672">=</span> tape<span style="color:#f92672">.</span>gradient(loss_value, model<span style="color:#f92672">.</span>trainable_weights)
+</span></span><span style="display:flex;"><span>    optimizer<span style="color:#f92672">.</span>apply_gradients(zip(grads, model<span style="color:#f92672">.</span>trainable_weights))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    train_acc_metric<span style="color:#f92672">.</span>update_state(y, logits)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> loss_value
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_step</span>(x, y, model, loss_fn, val_acc_metric):
+</span></span><span style="display:flex;"><span>    val_logits <span style="color:#f92672">=</span> model(x, training<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    loss_value <span style="color:#f92672">=</span> loss_fn(y, val_logits)
+</span></span><span style="display:flex;"><span>    val_acc_metric<span style="color:#f92672">.</span>update_state(y, val_logits)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> loss_value
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>(train_dataset,val_dataset, model,optimizer,loss_fn,train_acc_metric,val_acc_metric,
+</span></span><span style="display:flex;"><span>          epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, 
+</span></span><span style="display:flex;"><span>          log_step<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>, 
+</span></span><span style="display:flex;"><span>          val_log_step<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>):
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(epochs):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Start of epoch </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (epoch,))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        train_loss <span style="color:#f92672">=</span> []   
+</span></span><span style="display:flex;"><span>        val_loss <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Iteracion sobre los batches del dataset</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> step, (x_batch_train, y_batch_train) <span style="color:#f92672">in</span> tqdm<span style="color:#f92672">.</span>tqdm(enumerate(train_dataset), total<span style="color:#f92672">=</span>len(train_dataset)):
+</span></span><span style="display:flex;"><span>            loss_value <span style="color:#f92672">=</span> train_step(x_batch_train, y_batch_train, 
+</span></span><span style="display:flex;"><span>                                    model, optimizer, 
+</span></span><span style="display:flex;"><span>                                    loss_fn, train_acc_metric)
+</span></span><span style="display:flex;"><span>            train_loss<span style="color:#f92672">.</span>append(float(loss_value))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> step, (x_batch_val, y_batch_val) <span style="color:#f92672">in</span> enumerate(val_dataset):
+</span></span><span style="display:flex;"><span>            val_loss_value <span style="color:#f92672">=</span> test_step(x_batch_val, y_batch_val, 
+</span></span><span style="display:flex;"><span>                                       model, loss_fn, 
+</span></span><span style="display:flex;"><span>                                       val_acc_metric)
+</span></span><span style="display:flex;"><span>            val_loss<span style="color:#f92672">.</span>append(float(val_loss_value))
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>          train_acc <span style="color:#f92672">=</span> train_acc_metric<span style="color:#f92672">.</span>result()
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Training acc over epoch: </span><span style="color:#e6db74">%.4f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (float(train_acc),))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        val_acc <span style="color:#f92672">=</span> val_acc_metric<span style="color:#f92672">.</span>result()
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Validation acc: </span><span style="color:#e6db74">%.4f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (float(val_acc),))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        train_acc_metric<span style="color:#f92672">.</span>reset_states()
+</span></span><span style="display:flex;"><span>        val_acc_metric<span style="color:#f92672">.</span>reset_states()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        wandb<span style="color:#f92672">.</span>log({<span style="color:#e6db74">&#39;epochs&#39;</span>: epoch,
+</span></span><span style="display:flex;"><span>                   <span style="color:#e6db74">&#39;loss&#39;</span>: np<span style="color:#f92672">.</span>mean(train_loss),
+</span></span><span style="display:flex;"><span>                   <span style="color:#e6db74">&#39;acc&#39;</span>: float(train_acc), 
+</span></span><span style="display:flex;"><span>                   <span style="color:#e6db74">&#39;val_loss&#39;</span>: np<span style="color:#f92672">.</span>mean(val_loss),
+</span></span><span style="display:flex;"><span>                   <span style="color:#e6db74">&#39;val_acc&#39;</span>:float(val_acc)})
+</span></span></code></pre></div><p>Para poder iterar sobre varios parámetros es necesario definir un diccionario de configuración con los valores o en dado caso un archivo yaml que le pasaremos a W&amp;B, en mi caso queda como sigue:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sweep_config <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;method&#39;</span>: <span style="color:#e6db74">&#39;random&#39;</span>, 
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;metric&#39;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;name&#39;</span>: <span style="color:#e6db74">&#39;val_loss&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;goal&#39;</span>: <span style="color:#e6db74">&#39;minimize&#39;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;early_terminate&#39;</span>:{
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;type&#39;</span>: <span style="color:#e6db74">&#39;hyperband&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;min_iter&#39;</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;parameters&#39;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;batch_size&#39;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#39;values&#39;</span>: [<span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">256</span>]
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;learning_rate&#39;</span>:{
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#39;values&#39;</span>: [<span style="color:#ae81ff">0.01</span>, <span style="color:#ae81ff">0.005</span>, <span style="color:#ae81ff">0.001</span>, <span style="color:#ae81ff">0.0005</span>, <span style="color:#ae81ff">0.0001</span>]
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sweep_train</span>(config_defaults<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    config_defaults <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;batch_size&#34;</span>: <span style="color:#ae81ff">64</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;learning_rate&#34;</span>: <span style="color:#ae81ff">0.01</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>init(config<span style="color:#f92672">=</span>config_defaults)
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>epochs <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>log_step <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>val_log_step <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>architecture_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MLP&#34;</span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>dataset_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MNIST&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    train_dataset <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>Dataset<span style="color:#f92672">.</span>from_tensor_slices((x_entrenamiento, y_entrenamiento))
+</span></span><span style="display:flex;"><span>    train_dataset <span style="color:#f92672">=</span> (train_dataset<span style="color:#f92672">.</span>shuffle(buffer_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1024</span>)
+</span></span><span style="display:flex;"><span>                                  <span style="color:#f92672">.</span>batch(wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>batch_size)
+</span></span><span style="display:flex;"><span>                                  <span style="color:#f92672">.</span>prefetch(buffer_size<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>AUTOTUNE))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    val_dataset <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>Dataset<span style="color:#f92672">.</span>from_tensor_slices((x_prueba, y_prueba))
+</span></span><span style="display:flex;"><span>    val_dataset <span style="color:#f92672">=</span> (val_dataset<span style="color:#f92672">.</span>batch(wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>batch_size)
+</span></span><span style="display:flex;"><span>                              <span style="color:#f92672">.</span>prefetch(buffer_size<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>AUTOTUNE))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    model <span style="color:#f92672">=</span> cnn_model()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    optimizer <span style="color:#f92672">=</span> tensorflow<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>optimizers<span style="color:#f92672">.</span>SGD(learning_rate<span style="color:#f92672">=</span>wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>learning_rate)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    loss_fn <span style="color:#f92672">=</span> tensorflow<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>losses<span style="color:#f92672">.</span>CategoricalCrossentropy(from_logits<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    train_acc_metric <span style="color:#f92672">=</span> tensorflow<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>metrics<span style="color:#f92672">.</span>CategoricalAccuracy()
+</span></span><span style="display:flex;"><span>    val_acc_metric   <span style="color:#f92672">=</span> tensorflow<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>metrics<span style="color:#f92672">.</span>CategoricalAccuracy()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    train(train_dataset,
+</span></span><span style="display:flex;"><span>          val_dataset, 
+</span></span><span style="display:flex;"><span>          model,
+</span></span><span style="display:flex;"><span>          optimizer,
+</span></span><span style="display:flex;"><span>          loss_fn,
+</span></span><span style="display:flex;"><span>          train_acc_metric,
+</span></span><span style="display:flex;"><span>          val_acc_metric,
+</span></span><span style="display:flex;"><span>          epochs<span style="color:#f92672">=</span>wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>epochs, 
+</span></span><span style="display:flex;"><span>          log_step<span style="color:#f92672">=</span>wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>log_step, 
+</span></span><span style="display:flex;"><span>          val_log_step<span style="color:#f92672">=</span>wandb<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>val_log_step)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sweep_id <span style="color:#f92672">=</span> wandb<span style="color:#f92672">.</span>sweep(sweep_config, project<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sweeps-tensorflow&#34;</span>)
+</span></span></code></pre></div><p>Y una vez tengamos todo listo ejecutamos lo siguiente, que básicamente lo que hace es iterar sobre cada uno de los parámetros que definimos en la configuración.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wandb<span style="color:#f92672">.</span>agent(sweep_id, function<span style="color:#f92672">=</span>sweep_train, count<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+</span></span></code></pre></div><p>En el header de la ejecución nos muestra un mensaje similar al que vemos en la imagen, si ingresamos en el link nos abre una nueva pestaña con la interfaz de weights and biases de la cual podemos ver como se va actualizando mientras nuestro codigo se ejecuta.</p>
+<p><img src="https://drive.google.com//uc?id=18Aph_4cNSxbn2_cpkVBpjRWxQcFuKtQQ" alt=""></p>
+<p><img src="https://drive.google.com//uc?id=1DHQh9wBb0hem2vkMlFvfxfURIKGpSPdh" alt=""></p>
+<p>En la primer sección se muestran diferentes métricas como la pérdida y el accuracy con los datos de entrenamiento (<strong>loss</strong>, <strong>acc</strong>), así mismo se muestra el accuracy y el loss con los datos de validación (<strong>val_loss</strong>, <strong>val_acc</strong>), y por último nos muestra los epochs.</p>
+<p><img src="https://drive.google.com//uc?id=1DDPau9FA4J_a4pU1FI907alMNEe-rXgd" alt=""></p>
+<p>Entre lo más importante que podemos observar es esta sección:</p>
+<p><img src="https://drive.google.com//uc?id=1HRCfakUyTh9NRfCHwqPolDkzqnH1DKzW" alt=""></p>
+<p>La gráfica que se ve arriba después de realizar todas las configuraciones que le pasamos a través de la configuración las va graficando y con ello podemos ir viendo qué configuración es la que más minimiza el <strong>loss</strong> lo cual la configuración que logra dicho objetivo es:</p>
+<ul>
+<li>batch_size: <strong>32</strong></li>
+<li>learning_rate: <strong>0.005</strong></li>
+</ul>
+<p>Llegan a tener un val_loss de:</p>
+<ul>
+<li>val_loss: <strong>0.1661</strong></li>
+</ul>
+<p><img src="https://drive.google.com//uc?id=1stJ_sK8VCVTTaZY5yCh5QkhHY0Fbes_8" alt=""></p>
+<p>Con lo cual ya encontramos nuestros hiperparámetros adecuados para el modelo. Lo siguiente es entrenar nuestro modelo con esa configuración y una vez que lo entrenemos y validemos lo guardamos para usarlo.</p>
+<p>Fue un post breve en el cual les presento esta útil herramienta que les puede ayudar en su proceso de modelado, espero que les haya gustado y lo pongan en práctica sin mas les dejo mas link de referencia para que puedan echarle un ojo. Saludos.</p>
+<h3 id="referencias">Referencias</h3>
+<ul>
+<li><a href="https://keras.io/guides/writing_a_training_loop_from_scratch/">https://keras.io/guides/writing_a_training_loop_from_scratch/</a></li>
+<li><a href="https://keras.io/guides/training_with_built_in_methods/">https://keras.io/guides/training_with_built_in_methods/</a></li>
+<li><a href="https://wandb.ai/site">https://wandb.ai/site</a></li>
+<li><a href="https://docs.wandb.ai/guides/sweeps/configuration">https://docs.wandb.ai/guides/sweeps/configuration</a></li>
+</ul>
+<h3 id="código">Código</h3>
+<ul>
+<li><a href="https://github.com/caoba1623/wandb-with-keras/blob/main/W%26B_Keras.ipynb">https://github.com/caoba1623/wandb-with-keras/blob/main/W%26B_Keras.ipynb</a></li>
+</ul>
+
+                    </div>
+                    
+                    
+                    <div class="after-post-tags">
+                        <ul class="tags">
+                        
+                        <li>
+                        <a href="/tags/weights-biases">weights &amp; biases</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/mnist">MNIST</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/keras">keras</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/python">python</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/hyperparameter-optimization">Hyperparameter optimization</a>
+                        </li>
+                        
+                        </ul>
+                    </div>
+                    
+                    
+                    
+                    <div class="row PageNavigation d-flex justify-content-between font-weight-bold">
+                    
+                        <a class="d-block col-md-6" href="https://caoba1623.github.io/blog/robos_transeunte/robos_transeunte/"> &laquo; [3] Optimización de hiper parámetros y monitoreo del modelo</a>
+                    
+                    
+                        <a class="d-block col-md-6 text-lg-right" href="https://caoba1623.github.io/blog/fake-news-ml/fake-news-ml/">Combatiendo fake news con Machine Learning &raquo;</a>
+                    
+                    <div class="clearfix"></div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+
+
+            </div>
+<div class="jumbotron fortags">
+	<div class="d-md-flex h-100">
+		<div class="col-md-4 transpdark align-self-center text-center h-100">
+			<div class="d-md-flex align-items-center justify-content-center h-100">
+				<h2 class="d-md-block d-none align-self-center py-1 font-weight-light">Explore <span class="d-none d-md-inline">→</span></h2>
+			</div>
+		</div>
+		<div class="col-md-8 p-5 align-self-center text-center">
+			
+			<a class="mt-1 mb-1" href="/tags/analisis">analisis</a>
+			
+			<a class="mt-1 mb-1" href="/tags/cdmx">cdmx</a>
+			
+			<a class="mt-1 mb-1" href="/tags/cnn">cnn</a>
+			
+			<a class="mt-1 mb-1" href="/tags/convolucion">convolucion</a>
+			
+			<a class="mt-1 mb-1" href="/tags/crimen">crimen</a>
+			
+			<a class="mt-1 mb-1" href="/tags/delitos">delitos</a>
+			
+			<a class="mt-1 mb-1" href="/tags/exploracion">exploracion</a>
+			
+			<a class="mt-1 mb-1" href="/tags/fake-news">fake news</a>
+			
+			<a class="mt-1 mb-1" href="/tags/hyperparameter-optimization">hyperparameter optimization</a>
+			
+			<a class="mt-1 mb-1" href="/tags/interesting">interesting</a>
+			
+			<a class="mt-1 mb-1" href="/tags/keras">keras</a>
+			
+			<a class="mt-1 mb-1" href="/tags/machine-learning">machine learning</a>
+			
+			<a class="mt-1 mb-1" href="/tags/mnist">mnist</a>
+			
+			<a class="mt-1 mb-1" href="/tags/n-gram">n-gram</a>
+			
+			<a class="mt-1 mb-1" href="/tags/natural-languaje-processing">natural languaje processing</a>
+			
+			<a class="mt-1 mb-1" href="/tags/nlp">nlp</a>
+			
+			<a class="mt-1 mb-1" href="/tags/pyspark">pyspark</a>
+			
+			<a class="mt-1 mb-1" href="/tags/python">python</a>
+			
+			<a class="mt-1 mb-1" href="/tags/red-neuronal-recurrente">red neuronal recurrente</a>
+			
+			<a class="mt-1 mb-1" href="/tags/redes-neuronales">redes neuronales</a>
+			
+			<a class="mt-1 mb-1" href="/tags/retail">retail</a>
+			
+			<a class="mt-1 mb-1" href="/tags/scipy">scipy</a>
+			
+			<a class="mt-1 mb-1" href="/tags/series-de-tiempo">series de tiempo</a>
+			
+			<a class="mt-1 mb-1" href="/tags/sklearn">sklearn</a>
+			
+			<a class="mt-1 mb-1" href="/tags/tensorflow">tensorflow</a>
+			
+			<a class="mt-1 mb-1" href="/tags/tf-idf">tf-idf</a>
+			
+			<a class="mt-1 mb-1" href="/tags/timeseries">timeseries</a>
+			
+			<a class="mt-1 mb-1" href="/tags/weights-biases">weights &amp; biases</a>
+			
+		</div>
+	</div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 text-center text-lg-left">
+                &copy; Copyright Alberto Ortiz - All rights reserved
+            </div>
+            <div class="col-md-6 col-sm-6 text-center text-lg-right">    
+                <a target="_blank" rel="noopener" href="https://www.wowthemes.net">Mediumish Theme</a> by WowThemes.net
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+        </div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<script src="https://caoba1623.github.io/js/mediumish.84218587c174fd40bce82544b98851670f0b124a7324b349c54a4065e2b32ffc.js" integrity="sha256-hCGFh8F0/UC86CVEuYhRZw8LEkpzJLNJxUpAZeKzL/w="></script>
+    </body>
+</html>
